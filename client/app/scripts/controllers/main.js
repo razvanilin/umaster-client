@@ -16,6 +16,13 @@ angular.module('uMasterApp')
     $scope.input = {selectedActivity: 0};
     $scope.pinCode = "";
 
+    // load the local scripts configuration in the background
+    Script.one('local').get().then(function(localScripts) {
+      $scope.localScripts = localScripts;
+    }, function(response) {
+      console.log(response);
+    });
+
     if (store.get('profile')) {
       $scope.loading = true;
       // create or update the user
@@ -178,6 +185,16 @@ angular.module('uMasterApp')
 
     $scope.editScript = function(script) {
       $scope.script = script;
+
+      for (var i=0; i<$scope.localScripts.length; i++) {
+        if (script.script_id == $scope.localScripts[i].script_file) {
+          $scope.input.selectedActivity = i;
+          console.log(i);
+          break;
+        }
+      }
+
+      console.log(script);
       $scope.prepareScript();
     };
 
@@ -202,6 +219,7 @@ angular.module('uMasterApp')
       if (!$scope.script) $scope.script = {};
       // add the script file
       $scope.script.script_file = $scope.localScripts[$scope.input.selectedActivity].script_file;
+      $scope.script.script_id = $scope.localScripts[$scope.input.selectedActivity].script_id;
       console.log($scope.script.script_file);
       /*if (typeof $scope.script === typeof undefined) { $scope.script = {}; console.log($scope.script); }
       $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;

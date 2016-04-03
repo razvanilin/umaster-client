@@ -1,13 +1,21 @@
 <ng-include ng-show="loggedin" src="'views/navbar.html'"></ng-include>
-<div ng-show="!loggedin && !loading" class="jumbotron" style="margin-top:20px;">
-  <p><img src="images/logo33.png" height="200px"></p>
-  <h2>uMaster</h2>
-  <p class="lead">
-    Be the master of your devices
-  </p>
-  <p>
-    <button class="btn btn-lg btn-success" ng-click="signin()">Become uMaster</button>
-  </p>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div ng-show="!loggedin && !loading" class="jumbotron" style="margin-top:20px;">
+      <p><img src="images/logo33.png" height="200px"></p>
+      <h2>uMaster</h2>
+      <p class="lead">
+        Be the master of your devices
+      </p>
+      <p>
+        <button class="btn btn-lg btn-success" ng-click="signin()">Become uMaster</button>
+      </p>
+
+      <p class="text-muted">Create activities on your PC that can be activated remotely!</p>
+    </div>
+  </div>
+
 </div>
 
 <div ng-show="!loggedin && loading" class="row" style="text-align:center">
@@ -18,8 +26,8 @@
   <div class="row" style="text-align:center">
     <div class="col-md-12">
       <div ng-class="!viewNewScript ? 'panel panel-success' : 'panel panel-default'">
-        <div ng-show="!viewNewScript && scripts.length > 0" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> Add Script</h3></div>
-        <div ng-show="!viewNewScript && (!scripts || scripts.length < 1)" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> No scripts yet. Click here to add one!</h3></div>
+        <div ng-show="!viewNewScript && scripts.length > 0" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> Add Activity</h3></div>
+        <div ng-show="!viewNewScript && (!scripts || scripts.length < 1)" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> No activities yet. Click here to add one!</h3></div>
         <div ng-show="viewNewScript" class="panel-body" style="cursor:pointer;">
           <div class="row">
             <div class="col-md-6"><button type="submit" class="btn btn-lg btn-success" ng-click="addScript()" style="width:90%"><span class="glyphicon glyphicon-ok"></span> Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
@@ -70,7 +78,7 @@
       				<label for="inputType" class="col-md-4 control-label"><strong>Select Activity</strong></label>
       				<div class="col-md-5">
       					<select ng-model="input.selectedActivity" ng-change="selectScriptFile()" class="form-control" >
-                  <option ng-repeat="activity in localScripts" value="{{$index}}">{{activity.name}}</option>
+                  <option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option>
                 </select>
       				</div>
       			</div>
@@ -98,7 +106,7 @@
       			</div>
 
       			<div class="form-group top-buffer-sm">
-      				<label for="inputDescription" class="col-md-4 control-label">Script Description</label>
+      				<label for="inputDescription" class="col-md-4 control-label">Activity Description</label>
       				<div class="col-md-5">
       					<textarea ng-model="script.description" class="form-control" id="inputDescription" placeholder="Description (optional)"/>
       				</div>

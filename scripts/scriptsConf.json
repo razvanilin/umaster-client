@@ -1,15 +1,15 @@
 [{
-  "id":"openApp",
+  "script_id":"openApp",
   "name":"Open Application",
   "script_file":"openApp.bat",
   "args": {
       "type":"file",
-      "label":"Select an application you the script to run",
+      "label":"Select an application to run",
       "placeholder":"",
       "active": true
   }
 }, {
-  "id":"openUrl",
+  "script_id":"openUrl",
   "name":"Open URL",
   "script_file":"openApp.bat",
   "args": {
@@ -19,7 +19,7 @@
     "active": true
   }
 }, {
-  "id":"lock",
+  "script_id":"lock",
   "name":"Lock PC",
   "script_file":"lock.bat",
   "args": {
