@@ -1,5 +1,5 @@
 #!/bin/bash
 # Open Application script
 
-$1 &
+open "$1"
 exit 0

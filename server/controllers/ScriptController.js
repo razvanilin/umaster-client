@@ -1,4 +1,5 @@
 var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 var request = require('request');
@@ -160,12 +161,26 @@ module.exports = function(expressApp, route) {
   expressApp.post('/script/run/:name', function(req, res) {
     var script = path.join(__dirname, '..', '..', 'scripts', req.body.script.script_file + "");
     script = path.normalize(script);
-    var lock;
+    var command;
 
-    if (req.body.script.args && req.body.script.args.length > 0) {
-      lock = spawn(script, req.body.script.args);
-    } else {
-      lock = spawn(script);
+    // UNIX
+    if (process.platform == "darwin" || process.platform == "linux") {
+      // make sure the script is executable
+      var chmod = exec('chmod a+x ' + script);
+
+      if (req.body.script.args && req.body.script.args.length > 0) {
+        command = exec('sh ' + script + " \"" + req.body.script.args[0] + "\"");
+      } else {
+        command = spawn('sh', ['-c',script]);
+      }
+
+    // Windows
+    } else if (process.platform == "win32") {
+      if (req.body.script.args && req.body.script.args.length > 0) {
+        command = spawn(script, req.body.script.args[0]);
+      } else {
+        command = spawn(script);
+      }
     }
 
     return res.status(200).send('Run script accepted.');

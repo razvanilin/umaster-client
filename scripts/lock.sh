@@ -1,5 +1,5 @@
 #!/bin/bash
 # Lock screen script
 
-gnome-screensaver-command -l
-exit 0
+/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+exit 0;
