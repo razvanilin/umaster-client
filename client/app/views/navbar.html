@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #EEEEEE">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,22 +8,28 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" ng-href=""><img src="images/logo33.png" height="25px"></a>
+      <a class="navbar-brand" ng-href=""><img src="images/logo-color.png" height="20px"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <li>
+          <a ng-href="" class="pointer" ng-click="prepareScript()"><i class="fa fa-plus" aria-hidden="true"></i> Add Activity</a>
+        </li>
+        <li>
+          <a class="pointer" ng-href="" onclick="location.reload()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
+        </li>
         <form class="navbar-form navbar-left" role="search">
           <div class="form-group">
-            <span class="glyphicon glyphicon-lock"></span>
+            <span class="glyphicon glyphicon-lock text-primary"></span>
             <input type="text" class="form-control" ng-model="pinCode" placeholder="Pin Code">
           </div>
         </form>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a id="user-settings" class="dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" style="color:#333333 "><img ng-src="{{profile.picture}}" class="img-circle" height="25px"> <strong>{{profile.given_name}} <span class="glyphicon glyphicon-option-vertical"></span></strong></a>
+        <li class="dropdown pointer">
+          <a id="user-settings" class="dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false"><img ng-src="{{profile.picture}}" class="img-circle" height="17px"> <strong>{{profile.given_name}} <span class="glyphicon glyphicon-option-vertical"></span></strong></a>
           <ul class="dropdown-menu" aria-labelledby="user-settings">
             <li><a ng-href=""><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
             <li role="separator" class="divider"></li>

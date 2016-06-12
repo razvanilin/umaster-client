@@ -3,13 +3,13 @@
   <div class="col-md-3"></div>
   <div class="col-md-6">
     <div ng-show="!loggedin && !loading" class="jumbotron" style="margin-top:20px;">
-      <p><img src="images/logo33.png" height="200px"></p>
+      <p><img src="images/logo-color.png" height="200px"></p>
       <h2>uMaster</h2>
       <p class="lead">
         Be the master of your devices
       </p>
       <p>
-        <button class="btn btn-lg btn-success" ng-click="signin()">Become uMaster</button>
+        <button class="btn btn-lg btn-primary" ng-click="signin()">Become uMaster</button>
       </p>
 
       <p class="text-muted">Create activities on your PC that can be activated remotely!</p>
@@ -26,11 +26,11 @@
   <div class="row" style="text-align:center">
     <div class="col-md-12">
       <div ng-class="!viewNewScript ? 'panel panel-success' : 'panel panel-default'">
-        <div ng-show="!viewNewScript && scripts.length > 0" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> Add Activity</h3></div>
+        <!--div ng-show="!viewNewScript && scripts.length > 0" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> Add Activity</h3></div-->
         <div ng-show="!viewNewScript && (!scripts || scripts.length < 1)" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> No activities yet. Click here to add one!</h3></div>
         <div ng-show="viewNewScript" class="panel-body" style="cursor:pointer;">
           <div class="row">
-            <div class="col-md-6"><button type="submit" class="btn btn-lg btn-success" ng-click="addScript()" style="width:90%"><span class="glyphicon glyphicon-ok"></span> Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
+            <div class="col-md-6"><button type="submit" class="btn btn-lg btn-primary" ng-click="addScript()" style="width:90%"><span class="glyphicon glyphicon-ok"></span> Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
             <div class="col-md-6"><button class="btn btn-lg btn-warning" ng-click="prepareScript()" style="width:90%"><span class="glyphicon glyphicon-remove"></span> Cancel</button></div>
           </div>
           <div ng-show="scriptError" class="row">
@@ -46,7 +46,7 @@
     <div ng-repeat="scr in scripts">
       <div class="clearfix" ng-if="$index % 3 == 0"></div>
       <div class="col-md-4">
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
           <div class="panel-heading" style="text-align:center">
             <h4>{{scr.name}}</h4>
           </div>
@@ -55,7 +55,7 @@
           </div>
           <div class="panel-footer" style="padding:0px;margin:0px">
             <div class="row" style="padding:0px;margin:0px;">
-              <div class="btn-group" style="width:100%">
+              <div class="btn-group btn-block" style="width:100%">
                 <button class="btn btn-default" style="width:50%;" ng-click="editScript(scr)"><i class="fa fa-pencil-square-o text-primary"></i> Edit</button>
 
                  <button class="btn btn-default" style="width:50%;" ng-click="deleteScript(scr.name)"><i class="fa fa-trash text-danger"></i> Remove</button>
