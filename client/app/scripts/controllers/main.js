@@ -129,8 +129,10 @@ angular.module('uMasterApp')
       $scope.loading = true;
 
       console.log($scope.script.args);
-      if ($scope.script.args && $scope.script.args.length > 0)
+      if ($scope.script.args && $scope.script.args.length > 0 && !Array.isArray($scope.script.args)) {
+        console.log($scope.script.args);
         $scope.script.args = $scope.script.args.split(",");
+      }
 
       // check to see if this an edit request or creation
       var edit = false;
