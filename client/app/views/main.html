@@ -1,18 +1,19 @@
 <ng-include ng-show="loggedin" src="'views/navbar.html'"></ng-include>
 <div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-6">
-    <div ng-show="!loggedin && !loading" class="jumbotron" style="margin-top:20px;">
-      <p><img src="images/logo-color.png" height="200px"></p>
-      <h2>uMaster</h2>
-      <p class="lead">
+  <div class="col s6 offset-s3">
+    <div ng-show="!loggedin && !loading" class="card-panel grey lighten-5 z-depth-1 hoverable" style="text-align:center">
+      <div class="card-image">
+        <img src="images/logo-color.png" style="max-width:250px">
+        <h2 class="card-title">uMaster</h2>
+      </div>
+      <p class="flow-text">
         Be the master of your devices
       </p>
       <p>
-        <button class="btn btn-lg btn-primary" ng-click="signin()">Become uMaster</button>
+        <button class="waves-effect waves-light btn-large" ng-click="signin()">Become uMaster</button>
       </p>
 
-      <p class="text-muted">Create activities on your PC that can be activated remotely!</p>
+      <!--p class="flow-text">Create activities on your PC that can be activated remotely!</p-->
     </div>
   </div>
 
@@ -22,103 +23,114 @@
   <h1><i class="fa fa-circle-o-notch fa-spin"></i></h1>
 </div>
 
-<div ng-show="loggedin">
-  <div class="row" style="text-align:center">
-    <div class="col-md-12">
-      <div ng-class="!viewNewScript ? 'panel panel-success' : 'panel panel-default'">
-        <!--div ng-show="!viewNewScript && scripts.length > 0" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> Add Activity</h3></div-->
-        <div ng-show="!viewNewScript && (!scripts || scripts.length < 1)" class="panel-heading" style="cursor:pointer" ng-click="prepareScript()"><h3><span class="glyphicon glyphicon-plus-sign"></span> No activities yet. Click here to add one!</h3></div>
-        <div ng-show="viewNewScript" class="panel-body" style="cursor:pointer;">
-          <div class="row">
-            <div class="col-md-6"><button type="submit" class="btn btn-lg btn-primary" ng-click="addScript()" style="width:90%"><span class="glyphicon glyphicon-ok"></span> Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
-            <div class="col-md-6"><button class="btn btn-lg btn-warning" ng-click="prepareScript()" style="width:90%"><span class="glyphicon glyphicon-remove"></span> Cancel</button></div>
-          </div>
-          <div ng-show="scriptError" class="row">
-            <div class="col-md-12 top-buffer-sm"><div class="alert alert-danger">{{scriptError}}</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- All scripts section -->
-  <div ng-show="!viewNewScript" class="row">
+  <div ng-show="loggedin" class="row">
     <div ng-repeat="scr in scripts">
       <div class="clearfix" ng-if="$index % 3 == 0"></div>
-      <div class="col-md-4">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="text-align:center">
-            <h4>{{scr.name}}</h4>
+      <div class="col s4">
+        <div class="card grey lighten-5 z-depth-1 hoverable">
+          <div class="card-content">
+            <span class="card-title">
+              <a href="#{{scr._id}}" class="grey-text text-darken-3" modal>{{scr.name}}</a>
+            </span>
+            <p class="truncate">
+              <a href="#{{scr._id}}" class="grey-text text-darken-1" modal>{{scr.description}}</a>
+            </p>
           </div>
-          <div class="panel-body">
-            {{scr.description}}
-          </div>
-          <div class="panel-footer" style="padding:0px;margin:0px">
-            <div class="row" style="padding:0px;margin:0px;">
-              <div class="btn-group btn-block" style="width:100%">
-                <button class="btn btn-default" style="width:50%;" ng-click="editScript(scr)"><i class="fa fa-pencil-square-o text-success"></i> Edit</button>
-
-                 <button class="btn btn-default" style="width:50%;" ng-click="deleteScript(scr.name)"><i class="fa fa-trash text-danger"></i> Remove</button>
-              </div>
-            </div>
+          <div class="card-action">
+            <a class="waves-effect waves-light" href='#activityModal' modal ng-click="editScript(scr)"><i class="fa fa-pencil-square-o text-success"></i> Edit</a>
+            <a class="waves-effect waves-light" ng-click="deleteScript(scr.name)"><i class="fa fa-trash text-danger"></i> Remove</a>
           </div>
         </div>
       </div>
+
+      <!-- Description modal -->
+      <div id="{{scr._id}}" class="modal">
+        <div class="modal-content">
+          <h3>{{scr.name}}</h3>
+          <p class="flow-text">{{scr.description}}</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- Add new script section -->
-  <div ng-if="viewNewScript" class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <form role="form" class="form-horizontal">
+  <div id="activityModal" class="modal">
+    <div class="modal-content">
+      <p class="flow-text">Create an activity</p>
+      <form role="form" class="form-horizontal">
 
-            <div class="form-group">
-      				<label for="inputType" class="col-md-4 control-label"><strong>Select Activity</strong></label>
-      				<div class="col-md-5">
-      					<select ng-model="input.selectedActivity" ng-change="selectScriptFile()" class="form-control" >
-                  <option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option>
-                </select>
-      				</div>
-      			</div>
-
-      			<div class="form-group">
-      				<label for="inputName" class="col-md-4 control-label"><strong>Activity Name*</strong></label>
-      				<div class="col-md-5">
-      					<input type="text" ng-model="script.name" class="form-control" id="inputName" placeholder="Input a name" required autofocus>
-      				</div>
-      			</div>
-
-      			<!--div class="form-group top-buffer-sm">
-      				<label for="inputFile" class="col-md-4 control-label"><strong>Script File*</strong></label>
-      				<div class="col-md-5">
-      					<input type="text" ng-model="script.script_file" class="form-control" id="inputFile" placeholder="File name and extension (e.g. lock.bat)" required>
-      				</div>
-      			</div-->
-
-      			<div ng-show="localScripts[input.selectedActivity].args.active" class="form-group top-buffer-sm">
-      				<label for="inputArgs" class="col-md-4 control-label">{{localScripts[input.selectedActivity].args.label}}</label>
-      				<div class="col-md-5">
-      					<input ng-show="localScripts[input.selectedActivity].args.type == 'text'" type="text" ng-model="script.args" class="form-control" id="inputArgs" placeholder="{{localScripts[input.selectedActivity].args.placeholder}}">
-                <input ng-show="localScripts[input.selectedActivity].args.type == 'file'" type="file" ng-model="script.args" class="form-control" id="inputArgs" onchange="angular.element(this).scope().file_changed(this)">
-      				</div>
-      			</div>
-
-      			<div class="form-group top-buffer-sm">
-      				<label for="inputDescription" class="col-md-4 control-label">Activity Description</label>
-      				<div class="col-md-5">
-      					<textarea ng-model="script.description" class="form-control" id="inputDescription" placeholder="Description (optional)"/>
-      				</div>
-      			</div>
-
-      		</form>
+        <div class="row">
+          <div class="input-field">
+    				<label ng-show="!input.selectedActivity" for="inputType">Select Activity</label>
+  					<select id="inputType" ng-model="input.selectedActivity" ng-change="selectScriptFile()" material-select watch>
+              <option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option>
+            </select>
+    			</div>
         </div>
-      </div>
+
+        <div class="row">
+    			<div class="input-field">
+    				<label for="inputName">Activity Name*</label>
+    				<input type="text" ng-model="script.name" class="validate" id="inputName" required>
+    			</div>
+        </div>
+
+        <div class="row">
+          <div ng-show="localScripts[input.selectedActivity].args.type == 'text'" class="input-field">
+    				<input type="text" ng-model="script.args" class="form-control" id="inputArgs">
+            <label for="inputArgs">{{localScripts[input.selectedActivity].args.label}}</label>
+          </div>
+
+          <div ng-show="localScripts[input.selectedActivity].args.type == 'file'" class="input-field">
+            <div class="file-field">
+              <div class="btn">
+                <span>{{localScripts[input.selectedActivity].args.label}}</span>
+                <input type="file" ng-model="script.args" class="file-input" id="inputArgs" onchange="angular.element(this).scope().file_changed(this)">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+    			<div class="input-field top-buffer-sm">
+    				<label for="inputDescription">Activity Description</label>
+    					<textarea ng-model="script.description" class="materialize-textarea" id="inputDescription" />
+    			</div>
+        </div>
+
+  		</form>
     </div>
+    <div class="modal-footer">
+      <div class="col s6"><button type="submit" class="waves-effect waves-light btn modal-action modal-close" ng-click="addScript()">Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
+      <div class="col s6"><button class="waves-effect waves-light btn modal-action modal-close btn-flat" ng-click="prepareScript()">Cancel</button></div>
+    </div>
+
   </div>
+
+</div>
+
+<div ng-show="loggedin" class="fixed-action-btn vertical" style="bottom: 60px; right: 24px;">
+  <a class="btn-floating btn-large">
+    <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;">
+  </a>
+  <ul>
+    <li><a tooltipped class="btn-floating red" data-position="left" data-delay="50" data-tooltip="Sign out" ng-click="logout()">
+      <i class="material-icons">power_settings_new</i></a></li>
+    <li><a tooltipped class="btn-floating blue" data-position="left" data-delay="50" data-tooltip="Account settings">
+      <i class="material-icons">settings</i></a></li>
+    <li><a href='#activityModal' modal ng-click="prepareScript()" class="btn-floating" >
+      <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i></a></li>
+  </ul>
 </div>
 
 <footer class="footer" style="width:100%">
-    <p class="text-muted" style="font-size:80%;">Developed by  <a href="http://razvanilin.com/">Răzvan Ilin</a> | uMaster </p>
+    <p style="font-size:80%;">Developed by  <a href="http://razvanilin.com/">Răzvan Ilin</a> | uMaster </p>
 </footer>

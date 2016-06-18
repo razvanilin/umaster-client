@@ -2,12 +2,24 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 $brand-primary: #A76F94 !default;
 $brand-success: #70AA74 !default;
 $jumbotron-bg: #ACD0AE !default;
+
+// $primary-color: #A76F94 !default;
+// $secondary-color: #70AA74 !default;
+$primary-color: #70AA74 !default;
+$secondary-color: #A76F94 !default;
+$link-color: #ACD0AE !default;
+$card-link-color: #A76F94 !default;
 //$panel-bg: #ACD0AE !default;
 
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
-@import "_bootswatch.scss";
+//@import "_bootswatch.scss";
+
+@import "../bower_components/materialize/sass/materialize.scss";
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
 
 .browsehappy {
   margin: 0.2em 0;
@@ -18,13 +30,14 @@ $jumbotron-bg: #ACD0AE !default;
 
 body {
   padding: 0;
-  padding-top: 70px;
+  //padding-top: 70px;
   background-color: #4A8E4E;
+  color: #707070;
 }
 
-.navbar {
-  background-color:#999999;
-}
+// .navbar {
+//   background-color:#999999;
+// }
 
 .container-fluid {
 
@@ -96,7 +109,7 @@ body {
 .footer {
     text-align: center;
     width:100%;
-    height:20px;
+
     background-color: white;
     background-attachment: scroll;
     background-position: 0% 0%;
@@ -150,4 +163,25 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+nav img {
+  margin-top:5px;
+}
+
+.modal {
+  max-height:90%;
+}
+
+.file-input {
+  width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 20%;
+    margin-top: -334px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 400px;
+    opacity: 0;
 }

@@ -16,7 +16,8 @@ angular
     'angular-storage',
     'angular-jwt',
     'ngRoute',
-    'ngResource'
+    'ngResource',
+    'ui.materialize'
   ])
   .config(function ($routeProvider, $httpProvider, RestangularProvider, authProvider, jwtInterceptorProvider) {
     RestangularProvider.setBaseUrl("http://localhost:8000");
