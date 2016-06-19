@@ -185,3 +185,13 @@ nav img {
     font-size: 400px;
     opacity: 0;
 }
+
+.card {
+  animation-name: fadein;
+  animation-duration: 1s;
+}
+
+@keyframes fadein {
+  from {margin-top:30px; opacity: 0;}
+  to {margin-top: $element-top-margin; opacity: 1;}
+}
