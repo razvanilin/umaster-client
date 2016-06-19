@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "main": "main.js",
   "scripts": {
-    "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && electron-packager . uMaster --platform=win32 --arch=ia32 --version=0.37.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && move uMaster-win32-ia32 ..\\..\\ && rd /s /q dist",
-    "build-linux": "electron-packager . uMaster --platform=linux --arch=ia32 --version=0.37.2 --asar=true",
-    "build-osx": "electron-packager . uMaster --platform=darwin --arch=x64 --version=0.37.2 --asar=true"
+    "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && electron-packager . uMaster --platform=win32 --arch=ia32 --version=1.2.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && move uMaster-win32-ia32 ..\\..\\ && rd /s /q dist",
+    "build-linux": "electron-packager . uMaster --platform=linux --arch=ia32 --version=1.2.2 --asar=true",
+    "build-osx": "electron-packager . uMaster --platform=darwin --arch=x64 --version=1.2.2 --asar=true"
   },
   "dependencies": {
     "body-parser": "^1.14.1",

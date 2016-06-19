@@ -1,6 +1,6 @@
 <ng-include ng-show="loggedin" src="'views/navbar.html'"></ng-include>
 <div class="row">
-  <div class="col s6 offset-s3">
+  <div class="col s12 m6 offset-m3">
     <div ng-show="!loggedin && !loading" class="card-panel grey lighten-5 z-depth-1 hoverable" style="text-align:center">
       <div class="card-image">
         <img src="images/logo-color.png" style="max-width:250px">
@@ -51,7 +51,7 @@
           <p class="flow-text">{{scr.description}}</p>
         </div>
         <div class="modal-footer">
-          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          <a class="modal-action modal-close waves-effect btn-flat">Close</a>
         </div>
       </div>
 
