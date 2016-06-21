@@ -141,6 +141,7 @@ angular.module('uMasterApp')
 
     $scope.addScript = function() {
       $scope.loading = true;
+      $scope.script = {};
 
       console.log($scope.script.args);
       if ($scope.script.args && $scope.script.args.length > 0 && !Array.isArray($scope.script.args)) {
