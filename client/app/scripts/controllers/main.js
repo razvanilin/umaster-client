@@ -15,6 +15,28 @@ angular.module('uMasterApp')
     $scope.script = {};
     $scope.input = {selectedActivity: 0};
     $scope.pinCode = "";
+    $scope.connection = {};
+
+    // Socket messages
+    umasterSocket.on('script-accepted', function(script) {
+
+      console.log(script);
+
+      if (script.pinCode == $scope.pinCode) {
+        Script.one('run').one(script.name).customPOST({script: script}).then(function(data) {
+          console.log(data);
+        });
+      } else {
+        console.log("Script denied.");
+      }
+    });
+
+    umasterSocket.on("register-complete", function(data) {
+      console.log(data);
+      $scope.connection = data;
+    });
+
+    // ---------------------------------------
 
     // load the local scripts configuration in the background
     Script.one('local').get().then(function(localScripts) {
@@ -30,6 +52,8 @@ angular.module('uMasterApp')
 
         console.log(user);
         $scope.profile = store.get('profile');
+        $scope.profile.type = "pc";
+
         $scope.loggedin = true;
 
         umasterSocket.emit('register', $scope.profile);
@@ -48,19 +72,6 @@ angular.module('uMasterApp')
       });
     }
 
-    umasterSocket.on('script-accepted', function(script) {
-
-      console.log(script);
-
-      if (script.pinCode == $scope.pinCode) {
-        Script.one('run').one(script.name).customPOST({script: script}).then(function(data) {
-          console.log(data);
-        });
-      } else {
-        console.log("Script denied.");
-      }
-    });
-
     $scope.signin = function() {
       $scope.loading = true;
       auth.signin({}, function (profile, token) {
@@ -74,6 +85,9 @@ angular.module('uMasterApp')
           store.set('profile', profile);
           store.set('token', token);
           $scope.profile = profile;
+          // register the type of the profile
+          $scope.profile.type = "pc";
+
           $scope.loggedin = true;
           umasterSocket.emit('register', $scope.profile);
           $scope.loading = false;
@@ -151,6 +165,10 @@ angular.module('uMasterApp')
           $scope.viewNewScript = false;
           $scope.loading = false;
           $location.path("/");
+
+          // emit a socket message to let the server know that a new activity was created
+          umasterSocket.emit('activity-created', $scope.profile);
+
         }, function(response) {
           console.log(response);
           $scope.scriptError = response.data;
@@ -165,6 +183,10 @@ angular.module('uMasterApp')
           $scope.viewNewScript = false;
           $scope.loading = false;
           $location.path("/");
+
+          // emit a socket message to let the server know that a new activity was created
+          umasterSocket.emit('activity-created', $scope.profile);
+
         }, function(response) {
           console.log(response);
           $scope.scriptError = response.data;
@@ -179,6 +201,10 @@ angular.module('uMasterApp')
         console.log(scripts);
         $scope.scripts = scripts;
         $scope.loading = false;
+
+        // emit a socket message to let the server know that a new activity was deleted
+        umasterSocket.emit('activity-created', $scope.profile);
+
       }, function(response) {
         $scope.loading = false;
         console.log(response.data);

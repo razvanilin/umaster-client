@@ -16,6 +16,12 @@
           </a>
         </li>
       </ul-->
+      <ul class="right">
+        <li>
+          <a tooltipped ng-show="!connection.web" data-position="bottom" data-delay="50"  data-tooltip="Not connected to any clients"><i class="material-icons">portable_wifi_off</i></a>
+          <a tooltipped ng-show="connection.web" data-position="bottom" data-delay="50"  data-tooltip="Connected to a Web client"><i class="material-icons">settings_input_antenna</i></a>
+        </li>
+      </ul>
     </div>
   </nav>
 </div>
