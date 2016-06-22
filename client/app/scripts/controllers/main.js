@@ -41,6 +41,7 @@ angular.module('uMasterApp')
     // load the local scripts configuration in the background
     Script.one('local').get().then(function(localScripts) {
       $scope.localScripts = localScripts;
+      console.log(localScripts);
     }, function(response) {
       console.log(response);
     });

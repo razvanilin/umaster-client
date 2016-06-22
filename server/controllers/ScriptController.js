@@ -39,7 +39,7 @@ module.exports = function(expressApp, route) {
    *  Route to get the scripts found in the scriptsConf.json
    */
   expressApp.get('/script/local', function(req, res) {
-    var scriptsConfPath = path.join(__dirname, '..', '..', 'scripts', 'scriptsConf.json');
+    var scriptsConfPath = path.join(__dirname, '..', '..', 'scripts', 'scriptsConfTest.json');
     scriptsConfPath = path.normalize(scriptsConfPath);
 
     var scriptsConf;
@@ -64,13 +64,14 @@ module.exports = function(expressApp, route) {
     var options = {
       url: expressApp.settings.host + "/script",
       method: "POST",
-      form: {user: req.body.user,
-            script: {
-                      name:req.body.script.name,
-                      script_file: req.body.script.script_file,
-                      description: req.body.script.description,
-                      args: req.body.script.args
-                    }
+      form: {
+        user: req.body.user,
+        script: {
+          name:req.body.script.name,
+          script_file: req.body.script.script_file,
+          description: req.body.script.description,
+          args: req.body.script.args
+        }
       },
       header: {
         "Accept": "application/json",
@@ -169,7 +170,17 @@ module.exports = function(expressApp, route) {
       var chmod = exec('chmod a+x ' + script);
 
       if (req.body.script.args && req.body.script.args.length > 0) {
-        command = exec('sh ' + script + " \"" + req.body.script.args[0] + "\"");
+        var args = "";
+        // build the args string
+        if (req.body.script.args.length == 1) {
+          args = req.body.script.args[0];
+        } else {
+          for (var i=0; i<req.body.args.length; i++) {
+            args += req.body.args[i];
+          }
+        }
+        // execute the command
+        command = exec('sh ' + script + " \"" + args + "\"");
       } else {
         command = spawn('sh', ['-c',script]);
       }
@@ -177,7 +188,17 @@ module.exports = function(expressApp, route) {
     // Windows
     } else if (process.platform == "win32") {
       if (req.body.script.args && req.body.script.args.length > 0) {
-        command = spawn(script, req.body.script.args[0]);
+        var args = "";
+        // build the args string
+        if (req.body.script.args.length == 1) {
+          args = req.body.script.args[0];
+        } else {
+          for (var i=0; i<req.body.args.length; i++) {
+            args += req.body.args[i];
+          }
+        }
+        // execute
+        command = spawn(script, args);
       } else {
         command = spawn(script);
       }

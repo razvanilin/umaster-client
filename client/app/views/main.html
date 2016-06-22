@@ -81,21 +81,23 @@
         </div>
 
         <div class="row">
-          <div ng-show="localScripts[input.selectedActivity].args.type == 'text'" class="input-field">
-    				<input type="text" ng-model="script.args" class="form-control" id="inputArgs">
-            <label for="inputArgs">{{localScripts[input.selectedActivity].args.label}}</label>
-          </div>
 
-          <div ng-show="localScripts[input.selectedActivity].args.type == 'file'" class="input-field">
-            <div class="file-field">
+          <div ng-repeat="arg in localScripts[input.selectedActivity].args" class="input-field">
+            <!-- if text -->
+    				<input ng-show="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputArgs">
+            <label ng-show="arg.type == 'text'" for="inputArgs">{{arg.label}}</label>
+
+            <!-- if file -->
+            <div ng-show="arg.type == 'file'" class="file-field">
               <div class="btn">
-                <span>{{localScripts[input.selectedActivity].args.label}}</span>
-                <input type="file" ng-model="script.args" class="file-input" id="inputArgs" onchange="angular.element(this).scope().file_changed(this)">
+                <span>{{arg.label}}</span>
+                <input type="file" ng-model="script.args[$index]" class="file-input" id="inputArgs" onchange="angular.element(this).scope().file_changed(this)">
               </div>
               <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">
               </div>
             </div>
+
           </div>
         </div>
 
