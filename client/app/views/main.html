@@ -84,18 +84,24 @@
 
           <div ng-repeat="arg in localScripts[input.selectedActivity].args" class="input-field">
             <!-- if text -->
-    				<input ng-show="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputArgs">
-            <label ng-show="arg.type == 'text'" for="inputArgs">{{arg.label}}</label>
+    				<input ng-if="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputText{{$index}}">
+            <label ng-if="arg.type == 'text'" for="inputText{{$index}}">{{arg.label}}</label>
 
             <!-- if file -->
-            <div ng-show="arg.type == 'file'" class="file-field">
+            <div ng-if="arg.type == 'file'" class="file-field">
               <div class="btn">
                 <span>{{arg.label}}</span>
-                <input type="file" ng-model="script.args[$index]" class="file-input" id="inputArgs" onchange="angular.element(this).scope().file_changed(this)">
+                <input type="file" ng-model="script.args[$index]" class="file-input" id="inputFile{{$index}}" onchange="angular.element(this).scope().file_changed(this)">
               </div>
               <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">
               </div>
+            </div>
+
+            <!-- if range -->
+            <div ng-if="arg.type == 'range'" class="range-field">
+              <input type="range" ng-model="script.args[$index]" min="{{arg.min}}" max="{{arg.max}}" id="inputRange{{$index}}" ng-change="testCheck()" />
+              <label for="inputRange{{$index}}">{{arg.label}}</label>
             </div>
 
           </div>
