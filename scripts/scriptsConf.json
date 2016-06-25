@@ -2,27 +2,27 @@
   "script_id":"openApp",
   "name":"Open Application",
   "script_file":"openApp.sh",
-  "args": {
+  "args": [{
       "type":"file",
       "label":"Select an application to run",
       "placeholder":"",
       "active": true
-  }
+  }]
 }, {
   "script_id":"openUrl",
   "name":"Open URL",
   "script_file":"openApp.sh",
-  "args": {
+  "args": [{
     "type":"text",
     "label":"Enter URL",
     "placeholder":"http://google.com",
     "active": true
-  }
+  }]
 }, {
   "script_id":"lock",
   "name":"Lock PC",
   "script_file":"lock.sh",
-  "args": {
+  "args": [{
     "active": false
-  }
+  }]
 }]
