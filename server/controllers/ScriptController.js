@@ -57,6 +57,7 @@ module.exports = function(expressApp, route) {
    *  Route to request the creation of a new script
    */
   expressApp.post('/script', function(req, res) {
+    console.log(req.body);
     if (!req.body.user) return res.status(400).send("No user in the body.");
     if (!req.body.script) return res.status(400).send("No script in the body.");
     if (!req.body.script.name) return res.status(400).send("Script needs a name.");
@@ -175,12 +176,14 @@ module.exports = function(expressApp, route) {
         if (req.body.script.args.length == 1) {
           args = req.body.script.args[0];
         } else {
-          for (var i=0; i<req.body.args.length; i++) {
-            args += req.body.args[i];
+          for (var i=0; i<req.body.script.args.length; i++) {
+            args += "\"" + req.body.script.args[i] + "\" ";
           }
         }
+        console.log(script + " " + args);
+
         // execute the command
-        command = exec('sh ' + script + " \"" + args + "\"");
+        command = exec('sh ' + script + " " + args);
       } else {
         command = spawn('sh', ['-c',script]);
       }
@@ -193,12 +196,12 @@ module.exports = function(expressApp, route) {
         if (req.body.script.args.length == 1) {
           args = req.body.script.args[0];
         } else {
-          for (var i=0; i<req.body.args.length; i++) {
-            args += req.body.args[i];
+          for (var i=0; i<req.body.script.args.length; i++) {
+            args += req.body.script.args[i];
           }
         }
         // execute
-        command = spawn(script, args);
+        command = spawn(script, req.body.script.args[0]);
       } else {
         command = spawn(script);
       }
