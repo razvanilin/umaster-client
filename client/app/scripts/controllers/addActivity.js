@@ -13,7 +13,9 @@ angular.module('uMasterApp')
     $scope.script = {args:[]};
     $scope.input = {selectedActivity: 0};
     $scope.localScripts = AppStore.localScripts;
-    console.log($scope.localScripts);
+    $scope.modalOpen = true;
+
+    // ANGULAR FUNCTIONS
     $scope.prepareScript = function() {
       $scope.script = {args: []};
     };
@@ -74,19 +76,16 @@ angular.module('uMasterApp')
       }
     };
 
-    $scope.editScript = function(script) {
+    $rootScope.editScript = function(script) {
       $scope.script = script;
-
+      console.log(script);
       for (var i=0; i<$scope.localScripts.length; i++) {
-        if (script.script_id == $scope.localScripts[i].script_file) {
+        if (script.script_file == $scope.localScripts[i].script_file) {
           $scope.input.selectedActivity = i;
           console.log(i);
           break;
         }
       }
-
-      console.log(script);
-      $scope.prepareScript();
     };
 
     $scope.file_changed = function(element, parent) {

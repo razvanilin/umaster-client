@@ -1,6 +1,6 @@
 <!-- Add new script section -->
 <div id="activityModal" class="modal" ng-controller="AddactivityCtrl">
-  <div class="modal-content">
+  <div class="modal-content" style="min-height:400px">
     <p class="flow-text">Create an activity</p>
     <form role="form" class="form-horizontal">
 
@@ -13,14 +13,14 @@
         </div>
       </div>
 
-      <div class="row">
+      <div ng-show="input.selectedActivity" class="row">
         <div class="input-field">
           <label for="inputName">Activity Name*</label>
           <input type="text" ng-model="script.name" class="validate" id="inputName" required>
         </div>
       </div>
 
-      <div class="row">
+      <div ng-show="input.selectedActivity" class="row">
 
         <div ng-repeat="arg in localScripts[input.selectedActivity].args" class="input-field">
           <!-- if text -->
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div ng-show="input.selectedActivity" class="row">
         <div class="input-field top-buffer-sm">
           <label for="inputDescription">Activity Description</label>
             <textarea ng-model="script.description" class="materialize-textarea" id="inputDescription" />
