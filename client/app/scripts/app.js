@@ -40,14 +40,16 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .factory('AppStore', function() {
+    var appStore = {
+      localScripts: []
+    };
+
+    return appStore;
   })
   .factory('User', function(Restangular) {
     return Restangular.service('user');

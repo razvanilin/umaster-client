@@ -58,70 +58,7 @@
     </div>
   </div>
 
-  <!-- Add new script section -->
-  <div id="activityModal" class="modal">
-    <div class="modal-content">
-      <p class="flow-text">Create an activity</p>
-      <form role="form" class="form-horizontal">
-
-        <div class="row">
-          <div class="input-field">
-    				<label ng-show="!input.selectedActivity" for="inputType">Select Activity</label>
-  					<select id="inputType" ng-model="input.selectedActivity" ng-change="selectScriptFile()" material-select watch>
-              <option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option>
-            </select>
-    			</div>
-        </div>
-
-        <div class="row">
-    			<div class="input-field">
-    				<label for="inputName">Activity Name*</label>
-    				<input type="text" ng-model="script.name" class="validate" id="inputName" required>
-    			</div>
-        </div>
-
-        <div class="row">
-
-          <div ng-repeat="arg in localScripts[input.selectedActivity].args" class="input-field">
-            <!-- if text -->
-    				<input ng-if="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputText{{$index}}">
-            <label ng-if="arg.type == 'text'" for="inputText{{$index}}">{{arg.label}}</label>
-
-            <!-- if file -->
-            <div ng-if="arg.type == 'file'" class="file-field">
-              <div class="btn">
-                <span>{{arg.label}}</span>
-                <input type="file" ng-model="script.args[$index]" class="file-input" id="inputFile{{$index}}" onchange="angular.element(this).scope().file_changed(this)">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-              </div>
-            </div>
-
-            <!-- if range -->
-            <div ng-if="arg.type == 'range'" class="range-field">
-              <input type="range" ng-model="script.args[$index]" min="{{arg.min}}" max="{{arg.max}}" id="inputRange{{$index}}" ng-change="testCheck()" />
-              <label for="inputRange{{$index}}">{{arg.label}}</label>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="row">
-    			<div class="input-field top-buffer-sm">
-    				<label for="inputDescription">Activity Description</label>
-    					<textarea ng-model="script.description" class="materialize-textarea" id="inputDescription" />
-    			</div>
-        </div>
-
-  		</form>
-    </div>
-    <div class="modal-footer">
-      <div class="col s6"><button type="submit" class="waves-effect waves-light btn modal-action modal-close" ng-click="addScript()">Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button></div>
-      <div class="col s6"><button class="waves-effect waves-light btn modal-action modal-close btn-flat" ng-click="prepareScript()">Cancel</button></div>
-    </div>
-
-  </div>
+  <ng-include ng-if="scriptsLoaded" src="'views/addActivity.html'"></ng-include>
 
 </div>
 
@@ -134,7 +71,7 @@
       <i class="material-icons">power_settings_new</i></a></li>
     <li><a tooltipped class="btn-floating blue" data-position="left" data-delay="50" data-tooltip="Account settings">
       <i class="material-icons">settings</i></a></li>
-    <li><a href='#activityModal' modal ng-click="prepareScript()" class="btn-floating" >
+    <li><a href='#activityModal' modal class="btn-floating" >
       <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i></a></li>
   </ul>
 </div>

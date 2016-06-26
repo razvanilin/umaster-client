@@ -8,23 +8,15 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('MainCtrl', function ($scope, User, auth, store, $location, umasterSocket, Script) {
+  .controller('MainCtrl', function ($scope, User, auth, store, $location, umasterSocket, Script, AppStore, $rootScope) {
     $scope.viewSignup = true;
     $scope.user = {};
-    $scope.viewNewScript = false;
-    $scope.script = {args:[]};
-    $scope.input = {selectedActivity: 0};
+    $scope.scriptsLoaded = false;
     $scope.pinCode = "";
     $scope.connection = {};
 
-    $scope.testCheck = function() {
-      console.log($scope.script);
-    }
-
     // Socket messages
     umasterSocket.on('script-accepted', function(script) {
-
-      console.log(script);
 
       if (script.pinCode == $scope.pinCode) {
         Script.one('run').one(script.name).customPOST({script: script}).then(function(data) {
@@ -36,7 +28,6 @@ angular.module('uMasterApp')
     });
 
     umasterSocket.on("register-complete", function(data) {
-      console.log(data);
       $scope.connection = data;
     });
 
@@ -44,8 +35,9 @@ angular.module('uMasterApp')
 
     // load the local scripts configuration in the background
     Script.one('local').get().then(function(localScripts) {
-      $scope.localScripts = localScripts;
-      console.log(localScripts);
+      AppStore.localScripts = localScripts;
+      $scope.scriptsLoaded = true;
+      console.log(AppStore.localScripts);
     }, function(response) {
       console.log(response);
     });
@@ -55,7 +47,6 @@ angular.module('uMasterApp')
       // create or update the user
       User.one().customPOST({user: store.get('profile')}).then(function(user) {
 
-        console.log(user);
         $scope.profile = store.get('profile');
         $scope.profile.type = "pc";
 
@@ -65,8 +56,7 @@ angular.module('uMasterApp')
         $scope.loading = false;
 
         Script.one().get({user: store.get('profile').email}).then(function(scripts) {
-          console.log(scripts);
-          $scope.scripts = scripts;
+          $rootScope.scripts = scripts;
         }, function(response) {
           console.log(response);
         });
@@ -80,13 +70,10 @@ angular.module('uMasterApp')
     $scope.signin = function() {
       $scope.loading = true;
       auth.signin({}, function (profile, token) {
-        // Success callback
-        console.log(profile);
 
         // create or update the user
         User.one().customPOST({user: profile}).then(function(user) {
 
-          console.log(user);
           store.set('profile', profile);
           store.set('token', token);
           $scope.profile = profile;
@@ -98,7 +85,7 @@ angular.module('uMasterApp')
           $scope.loading = false;
 
           Script.one().get({user: profile.email}).then(function(scripts) {
-            $scope.scripts = scripts;
+            $rootScope.scripts = scripts;
           }, function(response) {
             console.log(response);
           });
@@ -126,87 +113,10 @@ angular.module('uMasterApp')
       $scope.pinCode = "";
     };
 
-    $scope.prepareScript = function() {
-      $scope.viewNewScript = !$scope.viewNewScript;
-
-      if (!$scope.viewNewScript) {
-        $scope.script = {};
-        $scope.scriptError = false;
-      } else {
-        $scope.loading = true;
-        Script.one('local').get().then(function(localScripts) {
-          $scope.localScripts = localScripts;
-          $scope.loading = false;
-        }, function(response) {
-          console.log(response);
-          $scope.loading = false;
-        });
-      }
-    };
-
-    $scope.addScript = function() {
-      $scope.loading = true;
-
-      console.log($scope.script.args);
-      // if ($scope.script.args && $scope.script.args.length > 0 && !Array.isArray($scope.script.args)) {
-      //   console.log($scope.script.args);
-      //   $scope.script.args = $scope.script.args.split(",");
-      // }
-
-      // check to see if this an edit request or creation
-      var edit = false;
-      for (var i=0; i<$scope.scripts.length; i++) {
-        if ($scope.script._id == $scope.scripts[i]._id) {
-          edit = true;
-          break;
-        }
-      }
-
-      if (edit) {
-        Script.one().customPUT({user: $scope.profile.email, script: $scope.script})
-        .then(function(scripts) {
-          $scope.scripts = scripts;
-          console.log(scripts);
-          $scope.viewNewScript = false;
-          $scope.loading = false;
-          $scope.script = {};
-          $location.path("/");
-
-          // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-created', $scope.profile);
-
-        }, function(response) {
-          console.log(response);
-          $scope.scriptError = response.data;
-          $scope.loading = false;
-        });
-
-      } else {
-        Script.one().customPOST({user: $scope.profile.email, script: $scope.script})
-        .then(function(scripts) {
-          $scope.scripts = scripts;
-          console.log(scripts);
-          $scope.viewNewScript = false;
-          $scope.loading = false;
-          $scope.script = {};
-          $location.path("/");
-
-          // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-created', $scope.profile);
-
-        }, function(response) {
-          console.log(response);
-          $scope.scriptError = response.data;
-          $scope.loading = false;
-        });
-      }
-    };
-
     $scope.deleteScript = function(scriptName) {
       $scope.loading = true;
       Script.one(scriptName).one('remove').customPOST({user:$scope.profile.email}).then(function(scripts) {
-        console.log(scripts);
-        $scope.scripts = scripts;
+        $rootScope.scripts = scripts;
         $scope.loading = false;
 
         // emit a socket message to let the server know that a new activity was deleted
@@ -216,51 +126,6 @@ angular.module('uMasterApp')
         $scope.loading = false;
         console.log(response.data);
       });
-    };
-
-    $scope.editScript = function(script) {
-      $scope.script = script;
-
-      for (var i=0; i<$scope.localScripts.length; i++) {
-        if (script.script_id == $scope.localScripts[i].script_file) {
-          $scope.input.selectedActivity = i;
-          console.log(i);
-          break;
-        }
-      }
-
-      console.log(script);
-      $scope.prepareScript();
-    };
-
-    $scope.file_changed = function(element, parent) {
-      // extract the argument index (for the $scope.script.args)
-      var argsIndex = parseInt(element.id.substring(element.id.lastIndexOf("e")+1));
-
-      $scope.$apply(function(scope) {
-         var file = element.files[0];
-
-         $scope.script.args[argsIndex] = file.path;
-
-         var reader = new FileReader();
-         reader.onload = function(e) {
-            //
-         };
-         reader.readAsDataURL(file);
-      });
-    };
-
-    $scope.selectScriptFile = function() {
-      console.log($scope.input.selectedActivity);
-
-      if (!$scope.script) $scope.script = {};
-      // add the script file
-      $scope.script.script_file = $scope.localScripts[$scope.input.selectedActivity].script_file;
-      $scope.script.script_id = $scope.localScripts[$scope.input.selectedActivity].script_id;
-      console.log($scope.script.script_file);
-      /*if (typeof $scope.script === typeof undefined) { $scope.script = {}; console.log($scope.script); }
-      $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;
-      console.log($scope.script.script_file);*/
     };
 
   });
