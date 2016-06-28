@@ -70,6 +70,7 @@ module.exports = function(expressApp, route) {
         script: {
           name:req.body.script.name,
           script_file: req.body.script.script_file,
+          script_id: req.body.script.script_id,
           description: req.body.script.description,
           args: req.body.script.args
         }
