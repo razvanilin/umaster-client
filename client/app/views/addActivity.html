@@ -7,13 +7,14 @@
       <div class="row">
         <div class="input-field">
           <label ng-show="!input.selectedActivity" for="inputType">Select Activity*</label>
-          <select id="inputType" ng-model="input.selectedActivity" ng-change="selectScriptFile()" material-select watch>
-            <option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option>
+          <select id="inputType" ng-model="input.selectedActivity" ng-change="selectScriptFile()" material-select watch
+                  ng-options="activity.script_id as activity.name for activity in localScripts">
+            <!-- option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option -->
           </select>
         </div>
       </div>
 
-      <div ng-show="input.selectedActivity" class="row">
+      <div ng-show="selectedActivity" class="row">
         <div class="input-field">
           <label for="inputName">Activity Name*</label>
           <input type="text" ng-model="script.name" class="validate" id="inputName" required>
@@ -22,7 +23,7 @@
 
       <div ng-show="input.selectedActivity" class="row">
 
-        <div ng-repeat="arg in localScripts[input.selectedActivity].args" class="input-field">
+        <div ng-repeat="arg in localScripts[selectedActivity].args" class="input-field">
           <!-- if text -->
           <input ng-if="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputText{{$index}}">
           <label ng-if="arg.type == 'text'" for="inputText{{$index}}">{{arg.label}}</label>

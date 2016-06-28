@@ -8,37 +8,39 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('AddactivityCtrl', function ($scope, $rootScope, $location, AppStore, umasterSocket, Script) {
+  .controller('AddactivityCtrl', function ($scope, $rootScope, $location, AppStore, umasterSocket, Script, $timeout) {
 
     $scope.script = {args:[]};
     $scope.input = {selectedActivity: 0};
     $scope.localScripts = AppStore.localScripts;
     $scope.modalOpen = true;
+    $scope.selectedActivity = 0;
 
     // ANGULAR FUNCTIONS
-    $scope.prepareScript = function() {
+    $rootScope.prepareScript = function() {
       $scope.script = {args: []};
     };
 
     $scope.addScript = function() {
       $scope.loading = true;
 
-      console.log("$scope.script.args");
-      // if ($scope.script.args && $scope.script.args.length > 0 && !Array.isArray($scope.script.args)) {
-      //   console.log($scope.script.args);
-      //   $scope.script.args = $scope.script.args.split(",");
-      // }
+      // save script configuration
+      $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;
+      $scope.script.script_id = $scope.localScripts[$scope.selectedActivity].script_id;
 
       // check to see if this an edit request or creation
       var edit = false;
-      for (var i=0; i<$rootScope.scripts.length; i++) {
-        if ($scope.script._id == $rootScope.scripts[i]._id) {
-          edit = true;
-          break;
+      if ($scope.script._id) {
+        for (var i=0; i<$rootScope.scripts.length; i++) {
+          if ($scope.script._id == $rootScope.scripts[i]._id) {
+            edit = true;
+            break;
+          }
         }
       }
 
       if (edit) {
+        console.log($scope.script);
         Script.one().customPUT({user: $scope.profile.email, script: $scope.script})
         .then(function(scripts) {
           $rootScope.scripts = scripts;
@@ -57,8 +59,20 @@ angular.module('uMasterApp')
         });
 
       } else {
-        Script.one().customPOST({user: $scope.profile.email, script: $scope.script})
+        //console.log($scope.script);
+        // var tempScript = JSON.parse(JSON.stringify($scope.script));
+        var tempScript = {
+          name: $scope.script.name,
+          description: $scope.script.description,
+          script_file: $scope.script.script_file,
+          script_id: $scope.script.script_id
+        }
+        tempScript = JSON.parse(JSON.stringify(tempScript));
+        console.log(tempScript);
+
+        Script.post({user: $scope.profile.email, script: tempScript})
         .then(function(scripts) {
+
           $rootScope.scripts = scripts;
           console.log(scripts);
           $scope.loading = false;
@@ -77,15 +91,18 @@ angular.module('uMasterApp')
     };
 
     $rootScope.editScript = function(script) {
-      $scope.script = script;
-      console.log(script);
-      for (var i=0; i<$scope.localScripts.length; i++) {
-        if (script.script_file == $scope.localScripts[i].script_file) {
-          $scope.input.selectedActivity = i;
-          console.log(i);
-          break;
+        $scope.script = script;
+        if (script.script_id) {
+          $scope.input.selectedActivity = script.script_id;
+          console.log(script.script_id);
+          for (var i=0; i<$scope.localScripts.length; i++) {
+            if ($scope.localScripts[i].script_id == script.script_id) {
+              $scope.selectedActivity = i;
+              console.log($scope.selectedActivity);
+              break;
+            }
+          }
         }
-      }
     };
 
     $scope.file_changed = function(element, parent) {
@@ -106,15 +123,19 @@ angular.module('uMasterApp')
     };
 
     $scope.selectScriptFile = function() {
+      if (!$scope.script) $scope.script = {args: []};
       console.log($scope.input.selectedActivity);
+      // find the index of the selected activity
+      for (var i=0; i<$scope.localScripts.length; i++) {
+        if ($scope.localScripts[i].script_id == $scope.input.selectedActivity) {
+          $scope.selectedActivity = i;
+          console.log($scope.selectedActivity);
+          break;
+        }
+      }
 
-      if (!$scope.script) $scope.script = {};
       // add the script file
-      $scope.script.script_file = $scope.localScripts[$scope.input.selectedActivity].script_file;
-      $scope.script.script_id = $scope.localScripts[$scope.input.selectedActivity].script_id;
-      console.log($scope.script.script_file);
-      /*if (typeof $scope.script === typeof undefined) { $scope.script = {}; console.log($scope.script); }
       $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;
-      console.log($scope.script.script_file);*/
+      $scope.script.script_id = $scope.localScripts[$scope.selectedActivity].script_id;
     };
   });
