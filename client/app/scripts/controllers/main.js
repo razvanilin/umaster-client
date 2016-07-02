@@ -120,7 +120,7 @@ angular.module('uMasterApp')
         $scope.loading = false;
 
         // emit a socket message to let the server know that a new activity was deleted
-        umasterSocket.emit('activity-created', $scope.profile);
+        umasterSocket.emit('activity-updated', $scope.profile);
 
       }, function(response) {
         $scope.loading = false;
@@ -128,4 +128,22 @@ angular.module('uMasterApp')
       });
     };
 
+    $scope.changeScriptStatus = function(script) {
+      $scope.loading = true;
+      Script.one("status").customPUT({
+        user:$scope.profile.email,
+        script: {
+          _id: script._id,
+          status: script.active
+        }}
+      ).then(function(scripts) {
+        $scope.loading = false;
+        // emit a message to flag the change
+        console.log("emitting");
+        umasterSocket.emit("activity-updated", $scope.profile);
+      }, function(response) {
+        console.log(response);
+        $scope.loading = false;
+      });
+    }
   });

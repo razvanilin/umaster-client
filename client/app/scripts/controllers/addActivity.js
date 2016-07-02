@@ -50,7 +50,7 @@ angular.module('uMasterApp')
           $location.path("/");
 
           // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-created', $scope.profile);
+          umasterSocket.emit('activity-updated', $scope.profile);
 
         }, function(response) {
           console.log(response);
@@ -80,7 +80,7 @@ angular.module('uMasterApp')
           $location.path("/");
 
           // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-created', $scope.profile);
+          umasterSocket.emit('activity-updated', $scope.profile);
 
         }, function(response) {
           console.log(response);

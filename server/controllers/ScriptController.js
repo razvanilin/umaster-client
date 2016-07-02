@@ -131,6 +131,41 @@ module.exports = function(expressApp, route) {
   // ------------------------------------------------------------------------
 
   /*
+  **  Route to update the status of a script
+  */
+  expressApp.put("/script/status", (req, res) => {
+    if (!req.body.user) return res.status(400).send("No user specified.");
+    if (!req.body.script._id) return res.status(400).send("No script id specified.");
+    if (typeof req.body.script.status === typeof undefined)
+      return res.status(400).send("No script status specified");
+
+    var options = {
+      url: expressApp.settings.host + "/script/status",
+      method: "PUT",
+      form: { user: req.body.user, script: req.body.script},
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+
+    // make the request
+    request(options, (error, resp, body) => {
+      if (error) return res.status(400).send(error);
+
+      try {
+        var responseString = JSON.parse(body);
+        return res.status(resp.statusCode).send(responseString);
+      } catch (e) {
+        console.log(e);
+        console.log(body);
+        return res.status(400).send(body);
+      }
+    });
+  });
+  // ------------------------------------------------------------------------
+
+  /*
    *  Route to delete a script
    */
   expressApp.post('/script/:name/remove', function(req, res) {
@@ -184,7 +219,7 @@ module.exports = function(expressApp, route) {
         console.log(script + " " + args);
 
         // execute the command
-        command = exec('sh ' + script + " " + args);
+        command = exec('sh ' + script + " \"" + args + "\"");
       } else {
         command = spawn('sh', ['-c',script]);
       }

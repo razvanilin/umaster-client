@@ -45,8 +45,16 @@
             </p>
           </div>
           <div class="card-action">
-            <a class="waves-effect waves-light" data-target="activityModal"  modal ng-click="editScript(scr)"><i class="fa fa-pencil-square-o text-success"></i> Edit</a>
-            <a class="waves-effect waves-light" ng-click="deleteScript(scr.name)"><i class="fa fa-trash text-danger"></i> Remove</a>
+            <a class="waves-effect waves-light" data-target="activityModal"  modal ng-click="editScript(scr)"><i class="fa fa-pencil-square-o"></i> Edit</a>
+            <a class="waves-effect waves-light red-text text-darken-4" ng-click="deleteScript(scr.name)"><i class="fa fa-trash"></i> Remove</a>
+            <div class="switch" style="float:right">
+              <label>
+                Off
+                <input type="checkbox" ng-model="scr.active" ng-change="changeScriptStatus(scr)">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
           </div>
         </div>
       </div>
