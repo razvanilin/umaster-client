@@ -3,21 +3,23 @@
   "version": "0.0.1",
   "main": "main.js",
   "scripts": {
+    "start": "NODE_ENV=development rm settings.js && cp ../settings-dev.js settings.js && electron .",
+    "start-prod": "NODE_ENV=production rm settings.js && cp ../settings-prod.js settings.js && electron .",
     "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && electron-packager . uMaster --platform=win32 --arch=ia32 --version=1.2.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && move uMaster-win32-ia32 ..\\..\\ && rd /s /q dist",
     "build-linux": "electron-packager . uMaster --platform=linux --arch=ia32 --version=1.2.2 --asar=true",
-    "build-osx": "electron-packager . uMaster --platform=darwin --arch=x64 --version=1.2.2 --asar=true"
+    "build-osx": "cd ../client && grunt build && mkdir ../server/dist && cp -R dist/ ../server/dist && cd ../server && rm settings.js && cp ../settings-prod.js settings.js && electron-packager . uMaster --platform=darwin --arch=x64 --version=1.2.2 --asar=true && rm -rf dist/"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.2"
   },
   "dependencies": {
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
     "cors": "^2.7.1",
-    "electron-prebuilt": "^1.2.2",
     "express": "^4.13.3",
     "express-session": "^1.12.0",
     "lodash": "^4.13.1",
     "method-override": "^2.3.5",
-    "passport": "^0.3.0",
-    "passport-google-oauth": "^1.0.0",
     "path": "^0.12.7",
     "request": "^2.65.0",
     "util": "^0.10.3"

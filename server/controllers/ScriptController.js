@@ -39,7 +39,7 @@ module.exports = function(expressApp, route) {
    *  Route to get the scripts found in the scriptsConf.json
    */
   expressApp.get('/script/local', function(req, res) {
-    var scriptsConfPath = path.join(__dirname, '..', '..', 'scripts', 'scriptsConfTest.json');
+    var scriptsConfPath = path.join(expressApp.scriptPath, 'scriptsConfTest.json');
     scriptsConfPath = path.normalize(scriptsConfPath);
 
     var scriptsConf;
@@ -197,8 +197,8 @@ module.exports = function(expressApp, route) {
 
 
   expressApp.post('/script/run/:name', function(req, res) {
-    var script = path.join(__dirname, '..', '..', 'scripts', req.body.script.script_file + "");
-    script = path.normalize(script);
+    var script = path.join(expressApp.scriptPath, req.body.script.script_file + "");
+    script = "\"" + path.normalize(script) + "\"";
     var command;
 
     // UNIX
