@@ -57,15 +57,15 @@
       <div ng-show="input.selectedActivity" class="row">
         <div class="input-field top-buffer-sm">
           <label for="inputDescription">Activity Description</label>
-            <textarea ng-model="script.description" class="materialize-textarea" id="inputDescription" />
+            <textarea ng-model="script.description" class="materialize-textarea" id="inputDescription"></textarea>
         </div>
       </div>
 
     </form>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="waves-effect waves-light btn modal-action modal-close" ng-click="addScript()">Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></button>
-    <button class="waves-effect waves-light modal-action modal-close btn-flat" ng-click="prepareScript()">Cancel</button>
+    <a class="modal-action modal-close waves-effect btn-flat" ng-click="addScript()">Save <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i></a>
+    <a class="modal-action modal-close waves-effect btn-flat" ng-click="prepareScript()">Cancel</a>
   </div>
 
 </div>
