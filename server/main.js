@@ -13,6 +13,8 @@ var http = require('http').Server(expressApp);
 var cors = require('cors');
 var spawn = require('child_process').spawn;
 var fs = require('fs');
+var rimraf = require('rimraf');
+var spawn = require('child_process').execSync;
 
 process.on('uncaughtException', function (error) {
   console.log(error.stack);
@@ -56,11 +58,22 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 1024, height: 764, title: "uMaster", webPreferences: {"nodeIntegration":false}});
 
   // check if the script folder exists in the user data folder
-  if (!fs.existsSync(expressApp.scriptPath)) {
-    fs.mkdirSync(expressApp.scriptPath);
-  }
+  // if (!fs.existsSync(expressApp.scriptPath)) {
+  //   fs.mkdirSync(expressApp.scriptPath);
+  // }
+  // check if the scripts folder is in the resources
+  // meaning that the application was just installed
 
-  console.log("The path is: " + app.getPath("exe"));
+  if (expressApp.settings.env == "production") {
+    var resFolder = path.join(__dirname, "..", "scripts");
+    resFolder = path.normalize(resFolder);
+    console.log("res folder: " + resFolder);
+    if (fs.existsSync(resFolder)) {
+      // fs.mkdirSync(expressApp.scriptPath);
+      //spawn('rm', ['-rf', expressApp.scriptPath]);
+      spawn('cp -rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
+    }
+  }
 
   // load the html page
   if (expressApp.settings.env == "development") {
