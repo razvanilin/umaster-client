@@ -1,3 +1,4 @@
 npm-debug.log
 *DS_Store*
 scripts/scriptsConfTest.json
+server/settings.js
