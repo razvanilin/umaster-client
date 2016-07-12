@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('MainCtrl', function ($scope, User, auth, store, $location, umasterSocket, Script, AppStore, $rootScope) {
+  .controller('MainCtrl', function ($scope, $window, User, auth, store, $location, umasterSocket, Script, AppStore, $rootScope) {
     $scope.viewSignup = true;
     $scope.user = {};
     $scope.scriptsLoaded = false;
@@ -86,6 +86,8 @@ angular.module('uMasterApp')
 
           Script.one().get({user: profile.email}).then(function(scripts) {
             $rootScope.scripts = scripts;
+            // refresh workaround to reset the socket factory settings
+            $window.location.reload();
           }, function(response) {
             console.log(response);
           });

@@ -58,7 +58,7 @@ angular
   .factory('Script', function(Restangular) {
     return Restangular.service('script');
   })
-  .factory('umasterSocket', function(socketFactory, ENV) {
+  .factory('umasterSocket', function(socketFactory, ENV, store) {
     var socketUrl;
     if (ENV == 'production') {
       socketUrl = "http://umaster-server.razvanilin.com";
@@ -66,9 +66,16 @@ angular
       socketUrl = "http://localhost:3030";
     }
 
-    return socketFactory({
-      ioSocket: io.connect(socketUrl)
-    });
+    var socket;
+    if (store.get('profile')) {
+      socket = socketFactory({
+        ioSocket: io.connect(socketUrl, {query: "email="+store.get('profile').email+"&type=pc"})
+      });
+    } else {
+      socket = socketFactory();
+    }
+    // connect the socket only if the user is logged in
+    return socket;
   })
   .run(function($rootScope, auth, store, jwtHelper, $location) {
     // This events gets triggered on refresh or URL change
