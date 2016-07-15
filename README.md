@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/razvanilin/umaster-client/master/client/app/images/logo33.png" width="120"/>
+  <img src="https://github.com/razvanilin/umaster-client/raw/master/client/app/images/logo-color.png" width="120"/>
 </p>
 
 # uMaster PC Client
 uMaster is a PC applications that allows you to use predefined scripts to create activities on your computer. These activities can be activated remotely through a web and mobile application (the later not yet implemented).
 
-**Actively developing on Windows, so OS X and Linux builds will not appear that often in the alpha stage**
+**Actively developing on OS X, so Windows and Linux builds will not appear that often in the alpha stage**
 
 * The web app can be found at: [umaster.razvanilin.com](umaster.razvanilin.com) where you can activate ativities on your PC
 * The PC client can be found [here](https://github.com/razvanilin/umaster-client/releases). The PC activities are created there

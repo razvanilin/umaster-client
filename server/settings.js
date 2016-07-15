@@ -1,4 +1,4 @@
 module.exports = {
-	host: 'http://localhost:3030',
-  env: "development"
+	host: 'http://umaster-server.razvanilin.com',
+  env: "production"
 };
