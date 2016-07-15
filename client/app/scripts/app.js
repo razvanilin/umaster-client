@@ -69,7 +69,9 @@ angular
     var socket;
     if (store.get('profile')) {
       socket = socketFactory({
-        ioSocket: io.connect(socketUrl, {query: "email="+store.get('profile').email+"&type=pc"})
+        ioSocket: io.connect(socketUrl, {
+          query: "email=" + store.get('profile').email + "&type=pc"
+        })
       });
     } else {
       socket = socketFactory();

@@ -23,7 +23,7 @@
   <h1><i class="fa fa-circle-o-notch fa-spin"></i></h1>
 </div>
 
-<div ng-show="scripts.length == 0" class="row centered">
+<div ng-show="loggedin && scripts.length == 0" class="row centered">
   <p class="flow-text white-text">No activities yet, press the button below to add one now</p>
   <a href='#activityModal' modal class="btn-floating btn-large waves-effect waves-light" ng-click="prepareScript()">
     <i tooltipped data-position="right" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i>
