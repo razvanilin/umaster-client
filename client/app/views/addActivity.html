@@ -25,7 +25,7 @@
 
         <div ng-repeat="arg in localScripts[selectedActivity].args" class="input-field">
           <!-- if text -->
-          <input ng-if="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputText{{$index}}">
+          <input ng-if="arg.type == 'text'" type="text" ng-model="script.args[$index]" class="form-control" id="inputText{{$index}}" ng-change="testing()">
           <label ng-if="arg.type == 'text'" for="inputText{{$index}}">{{arg.label}}</label>
 
           <!-- if file -->

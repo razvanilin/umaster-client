@@ -40,11 +40,9 @@ angular.module('uMasterApp')
       }
 
       if (edit) {
-        console.log($scope.script);
         Script.one().customPUT({user: $scope.profile.email, script: $scope.script})
         .then(function(scripts) {
           $rootScope.scripts = scripts;
-          console.log(scripts);
           $scope.loading = false;
           $scope.script = {args: []};
           $location.path("/");
@@ -59,18 +57,7 @@ angular.module('uMasterApp')
         });
 
       } else {
-        //console.log($scope.script);
-        // var tempScript = JSON.parse(JSON.stringify($scope.script));
-        var tempScript = {
-          name: $scope.script.name,
-          description: $scope.script.description,
-          script_file: $scope.script.script_file,
-          script_id: $scope.script.script_id
-        }
-        tempScript = JSON.parse(JSON.stringify(tempScript));
-        console.log(tempScript);
-
-        Script.post({user: $scope.profile.email, script: tempScript})
+        Script.post({user: $scope.profile.email, script: $scope.script})
         .then(function(scripts) {
 
           $rootScope.scripts = scripts;
@@ -94,7 +81,6 @@ angular.module('uMasterApp')
         $scope.script = script;
         if (script.script_id) {
           $scope.input.selectedActivity = script.script_id;
-          console.log(script.script_id);
           for (var i=0; i<$scope.localScripts.length; i++) {
             if ($scope.localScripts[i].script_id == script.script_id) {
               $scope.selectedActivity = i;
