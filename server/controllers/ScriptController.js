@@ -39,7 +39,14 @@ module.exports = function(expressApp, route) {
    *  Route to get the scripts found in the scriptsConf.json
    */
   expressApp.get('/script/local', function(req, res) {
-    var scriptsConfPath = path.join(expressApp.scriptPath, 'scriptsConfTest.json');
+    var scriptsConfFile;
+    if (process.platform == 'darwin') {
+      scriptsConfFile = 'scriptsConfOsx.json';
+    } else if (process.platform == 'win32') {
+      scriptsConfFile = 'scriptsConfWin.json';
+    }
+
+    var scriptsConfPath = path.join(expressApp.scriptPath, scriptsConfFile);
     scriptsConfPath = path.normalize(scriptsConfPath);
 
     var scriptsConf;
@@ -210,7 +217,7 @@ module.exports = function(expressApp, route) {
         var args = "";
         // build the args string
         if (req.body.script.args.length == 1) {
-          args = req.body.script.args[0];
+          args = "\"" + req.body.script.args[0] + "\"";
         } else {
           for (var i=0; i<req.body.script.args.length; i++) {
             args += "\"" + req.body.script.args[i] + "\" ";
@@ -230,16 +237,16 @@ module.exports = function(expressApp, route) {
         var args = "";
         // build the args string
         if (req.body.script.args.length == 1) {
-          args = req.body.script.args[0];
+          args = "\"" + req.body.script.args[0] + "\"";
         } else {
           for (var i=0; i<req.body.script.args.length; i++) {
-            args += req.body.script.args[i];
+            args += "\"" + req.body.script.args[i] + "\"";
           }
         }
         // execute
-        command = spawn(script, req.body.script.args[0]);
+        command = exec(script + " " + args);
       } else {
-        command = spawn(script);
+        command = exec(script);
       }
     }
 

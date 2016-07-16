@@ -64,16 +64,20 @@ app.on('ready', function() {
   // check if the scripts folder is in the resources
   // meaning that the application was just installed
 
-  if (expressApp.settings.env == "production") {
+//  if (expressApp.settings.env == "production") {
     var resFolder = path.join(__dirname, "..", "scripts");
     resFolder = path.normalize(resFolder);
     console.log("res folder: " + resFolder);
     if (fs.existsSync(resFolder)) {
       // fs.mkdirSync(expressApp.scriptPath);
       //spawn('rm', ['-rf', expressApp.scriptPath]);
-      spawn('cp -rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
+      if (process.paltform == 'darwin') {
+        spawn('cp -rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
+      } else if (process.platform == 'win32') {
+        spawn('xcopy ' + resFolder + " \"" + app.getPath('userData') + "\\scripts\" /S /I /Y");
+      }
     }
-  }
+//  }s
 
   // load the html page
   if (expressApp.settings.env == "development") {

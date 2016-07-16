@@ -4,8 +4,9 @@
   "main": "main.js",
   "scripts": {
     "start": "NODE_ENV=development rm settings.js && cp ../settings-dev.js settings.js && electron .",
+    "start-win": "del /F /S /Q /A settings.js && copy /Y ..\\settings-dev.js settings.js && node_modules\\electron-prebuilt\\dist\\electron.exe .",
     "start-prod": "NODE_ENV=production rm settings.js && cp ../settings-prod.js settings.js && electron .",
-    "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && electron-packager . uMaster --platform=win32 --arch=ia32 --version=1.2.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && move uMaster-win32-ia32 ..\\..\\ && rd /s /q dist",
+    "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && del /F /S /Q /A settings.js && copy /Y ..\\settings-prod.js settings.js && electron-packager . uMaster --overwrite --platform=win32 --arch=ia32 --version=1.2.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && rd /s /q dist",
     "build-linux": "electron-packager . uMaster --platform=linux --arch=ia32 --version=1.2.2 --asar=true",
     "build-osx": "cd ../client && grunt build && mkdir ../server/dist && cp -R dist/ ../server/dist && cd ../server && rm settings.js && cp ../settings-prod.js settings.js && electron-packager . uMaster --platform=darwin --arch=x64 --version=1.2.2 --asar=true && rm -rf dist/ && cp -R ../scripts uMaster-darwin-x64/uMaster.app/Contents/Resources/scripts"
   },
