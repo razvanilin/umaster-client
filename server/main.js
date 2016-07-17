@@ -71,8 +71,8 @@ app.on('ready', function() {
     if (fs.existsSync(resFolder)) {
       // fs.mkdirSync(expressApp.scriptPath);
       //spawn('rm', ['-rf', expressApp.scriptPath]);
-      if (process.paltform == 'darwin') {
-        spawn('cp -rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
+      if (process.platform == 'darwin') {
+        spawn('cp -Rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
       } else if (process.platform == 'win32') {
         spawn('xcopy ' + resFolder + " \"" + app.getPath('userData') + "\\scripts\" /S /I /Y");
       }
