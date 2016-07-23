@@ -13,7 +13,6 @@ angular.module('uMasterApp')
     $scope.script = {args:[]};
     $scope.input = {selectedActivity: 0};
     $scope.localScripts = AppStore.localScripts;
-    $scope.modalOpen = true;
     $scope.selectedActivity = 0;
 
     // ANGULAR FUNCTIONS

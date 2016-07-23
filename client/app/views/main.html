@@ -74,6 +74,7 @@
   </div>
 
   <ng-include ng-if="scriptsLoaded" src="'views/addActivity.html'"></ng-include>
+  <ng-include src="'views/update.html'"></ng-include>
 
 </div>
 
@@ -84,13 +85,13 @@
   <ul>
     <li><a tooltipped class="btn-floating red" data-position="left" data-delay="50" data-tooltip="Sign out" ng-click="logout()">
       <i class="material-icons">power_settings_new</i></a></li>
-    <li><a tooltipped class="btn-floating blue" data-position="left" data-delay="50" data-tooltip="Account settings">
-      <i class="material-icons">settings</i></a></li>
+    <li><a href='#updateModal' modal class="btn-floating blue" ng-click="checkForUpdates()">
+      <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Settings">settings</i></a></li>
     <li><a href='#activityModal' modal class="btn-floating" ng-click="prepareScript()">
       <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i></a></li>
   </ul>
 </div>
 
 <footer class="footer" style="width:100%">
-    <p style="font-size:80%;">Developed by  <a href="http://razvanilin.com/">Răzvan Ilin</a> | uMaster - alpha </p>
+    <p style="font-size:80%;">Developed by  <a href="http://razvanilin.com/">Răzvan Ilin</a> | uMaster - {{clientVersion}} </p>
 </footer>

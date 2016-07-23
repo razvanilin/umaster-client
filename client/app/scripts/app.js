@@ -58,6 +58,12 @@ angular
   .factory('Script', function(Restangular) {
     return Restangular.service('script');
   })
+  .factory('Update', function(Restangular) {
+    return Restangular.service('update');
+  })
+  .factory('Settings', function(Restangular) {
+    return Restangular.service('settings');
+  })
   .factory('umasterSocket', function(socketFactory, ENV, store) {
     var socketUrl;
     if (ENV == 'production') {

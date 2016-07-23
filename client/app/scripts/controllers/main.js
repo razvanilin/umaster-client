@@ -8,12 +8,13 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('MainCtrl', function ($scope, $window, User, auth, store, $location, umasterSocket, Script, AppStore, $rootScope) {
+  .controller('MainCtrl', function ($scope, $window, User, Settings, Update, auth, store, $location, umasterSocket, Script, AppStore, $rootScope, $timeout) {
     $scope.viewSignup = true;
     $scope.user = {};
     $scope.scriptsLoaded = false;
     $scope.pinCode = "";
     $scope.connection = {};
+    $rootScope.openUpdateModal = false;
 
     // Socket messages
     umasterSocket.on('script-accepted', function(script) {
@@ -32,6 +33,13 @@ angular.module('uMasterApp')
     });
 
     // ---------------------------------------
+
+    // get the client's version
+    Settings.one('version').get().then(function(data) {
+      $rootScope.clientVersion = data;
+    }, function(response) {
+      console.log(response);
+    });
 
     // load the local scripts configuration in the background
     Script.one('local').get().then(function(localScripts) {

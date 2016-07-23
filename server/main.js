@@ -1,4 +1,5 @@
 var electron = require('electron');
+var remote = electron.remote;
 var app = electron.app;  // Module to control application life.
 var BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 var path = require('path');
@@ -15,6 +16,10 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 var rimraf = require('rimraf');
 var spawn = require('child_process').execSync;
+var util = require('util');
+expressApp.packageJson = require("./package.json");
+expressApp.autoUpdater = electron.autoUpdater;
+
 
 process.on('uncaughtException', function (error) {
   console.log(error.stack);
@@ -36,8 +41,8 @@ expressApp.use(methodOverride('X-HTTP-Method-Override'));
 expressApp.use(session({secret: 'umasterc'}));
 expressApp.use(cors());
 
-expressApp.use(express.static(path.join(__dirname, 'dist')));
-expressApp.set('/', path.join(__dirname, 'dist'));
+expressApp.use(express.static(path.join(__dirname, 'public')));
+expressApp.set('/', path.join(__dirname, 'public'));
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -84,7 +89,7 @@ app.on('ready', function() {
     mainWindow.loadURL("http://localhost:9000");
   } else if (expressApp.settings.env == "production") {
     // and load the index.html of the app.
-    var url = path.join(__dirname, "dist", "index.html");
+    var url = path.join(__dirname, "public", "index.html");
     //url = url.replace("server\\", "");
     url = "file://" + url;
     console.log(url);
