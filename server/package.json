@@ -2,7 +2,7 @@
   "name": "uMaster",
   "version": "0.0.3",
   "main": "main.js",
-  "description":"Remote script runner.",
+  "description":"Remote script runner",
   "author": {
     "name":"Razvan Ilin",
     "email":"raz@razvanilin.com"
@@ -14,7 +14,8 @@
     "build-win": "cd ..\\client\\ && grunt build && xcopy dist ..\\server\\dist /S /I /Y && cd ..\\server && del /F /S /Q /A settings.js && copy /Y ..\\settings-prod.js settings.js && electron-packager . uMaster --overwrite --platform=win32 --arch=ia32 --version=1.2.2 --asar=true && xcopy ..\\scripts uMaster-win32-ia32\\resources\\scripts /S /I /Y && rd /s /q dist",
     "build-linux": "electron-packager . uMaster --platform=linux --arch=ia32 --version=1.2.2 --asar=true",
     "build-osx": "rm -rf uMaster-darwin-x64 && cd ../client && grunt build && mkdir ../server/dist && cp -R dist/ ../server/dist && cd ../server && rm settings.js && cp ../settings-prod.js settings.js && electron-packager . uMaster --platform=darwin --arch=x64 --version=1.2.2 --asar=true --icon=icon.icns && rm -rf dist/ && cp -R ../scripts uMaster-darwin-x64/uMaster.app/Contents/Resources/scripts",
-    "dist": "NODE_ENV=production rm -rf dist && rm settings.js && cd ../client && grunt build && cp -R dist/ ../server/public && cd ../server && cp ../settings-prod.js settings.js && build && rm -rf public/"
+    "dist": "NODE_ENV=production rm -rf dist && rm settings.js && cd ../client && grunt build && cp -R dist/ ../server/public && cd ../server && cp ../settings-prod.js settings.js && build && rm -rf public/",
+    "dist-win": "rd /s /q dist && del /F /S /Q /A settings.js && copy /Y ..\\settings-prod.js settings.js && cd ..\\client\\ && grunt build && xcopy dist ..\\server\\public /S /I /Y && cd ..\\server && build && rd /s /q public"
   },
   "build": {
     "appId": "com.razvanilin.uMaster",
@@ -34,6 +35,9 @@
           "type": "file"
         }
       ]
+    },
+    "win": {
+      "iconUrl": "https://github.com/razvanilin/umaster-client/raw/master/server/build/icon.ico"
     },
     "compression": "store"
   },

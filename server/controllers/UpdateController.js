@@ -1,19 +1,68 @@
 var os = require('os');
+var path = require('path');
+var cp = require('child_process');
+var spawn = cp.spawn;
 
 module.exports = (app, route) => {
 
-  var platform = os.platform() + "_" + os.arch();
+  var platform = os.platform();
+
+  console.log(platform);
   var update;
   var isUpdateAvailable = false;
-  // Auto Updater section
-  if (app.settings.env == 'production') {
+
+  // Update code for windows
+  function windowsUpdater() {
+    if (process.platform !== "win32") {
+      return false
+    }
+
+    const cmd = process.argv[1]
+    console.log("arguments: ");
+    console.log(process.argv);
+    console.log("Processing squirrel command");
+    console.log(cmd);
+    const target = path.basename(process.execPath)
+    if (cmd === "--squirrel-install" || cmd === "--squirrel-updated") {
+      console.log("Install or update");
+      run(['--createShortcut=' + target + ''], app.quit)
+      return true
+    }
+    else if (cmd === "--squirrel-uninstall") {
+      console.log("Uninstall");
+      run(['--removeShortcut=' + target + ''], app.quit)
+      return true
+    }
+    else if (cmd === "--squirrel-obsolete") {
+      console.log("Obsolete");
+      app.quit()
+      return true
+    }
+    else {
+      return false
+    }
+  };
+
+  function run(args, done) {
+    const updateExe = path.resolve(path.dirname(process.execPath), "..", "Update.exe")
+    console.log("Spawning");
+    console.log(updateExe);
+    console.log(args);
+    spawn(updateExe, args, {
+      detached: true
+    })
+    .on("close", done)
+  }
+
+  // Update code for macs
+  function autoUpdate() {
     app.autoUpdater.setFeedURL("https://umaster-nuts.herokuapp.com/update/" + platform + "/x.x.x");
     app.autoUpdater.checkForUpdates();
 
     //update events
     app.autoUpdater.addListener("error", (e) => {
       console.log("error");
-      console.log(util.inspect(e, {showHidden:false, depth:null}));
+      console.log(e);
     });
 
     app.autoUpdater.addListener("checking-for-update", (e) => {
@@ -47,6 +96,12 @@ module.exports = (app, route) => {
 
       console.log(update);
     });
+  }
+
+  // Auto Updater section
+  if (app.settings.env == 'production') {
+    autoUpdate();
+    if (process.platform == 'win32') windowsUpdater();
   }
 
   /* ROUTES */

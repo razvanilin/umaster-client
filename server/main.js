@@ -15,7 +15,7 @@ var cors = require('cors');
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 var rimraf = require('rimraf');
-var spawn = require('child_process').execSync;
+var execSync = require('child_process').execSync;
 var util = require('util');
 expressApp.packageJson = require("./package.json");
 expressApp.autoUpdater = electron.autoUpdater;
@@ -53,6 +53,8 @@ app.on('window-all-closed', function() {
   }
 });
 
+// expressApp.quit = app.quit;
+
 // record the path of the scripts
 expressApp.scriptPath = app.getPath('userData') + "/scripts";
 
@@ -77,9 +79,9 @@ app.on('ready', function() {
       // fs.mkdirSync(expressApp.scriptPath);
       //spawn('rm', ['-rf', expressApp.scriptPath]);
       if (process.platform == 'darwin') {
-        spawn('cp -Rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
+        execSync('cp -Rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
       } else if (process.platform == 'win32') {
-        spawn('xcopy ' + resFolder + " \"" + app.getPath('userData') + "\\scripts\" /S /I /Y");
+        execSync('xcopy ' + resFolder + " \"" + app.getPath('userData') + "\\scripts\" /S /I /Y");
       }
     }
 //  }s
