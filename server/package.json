@@ -39,7 +39,7 @@
     "win": {
       "iconUrl": "https://github.com/razvanilin/umaster-client/raw/master/server/build/icon.ico"
     },
-    "compression": "store"
+    "compression": "maximum"
   },
   "devDependencies": {
     "electron-builder": "^5.12.1",
