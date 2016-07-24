@@ -92,6 +92,19 @@
   </ul>
 </div>
 
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <h4 class="modal-title">Terms & Conditions</h4>
+    <ng-include src="'views/terms.html'"></ng-include>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+  </div>
+</div>
+
+
 <footer class="footer" style="width:100%">
-    <p style="font-size:80%;">Developed by Răzvan Ilin | razvanilin.com | uMaster - {{clientVersion}} </p>
+    <p style="font-size:80%;">Developed by Răzvan Ilin | razvanilin.com | uMaster - {{clientVersion}} |
+      <a href="#termsModal" modal>Terms & Conditions</a>
+    </p>
 </footer>
