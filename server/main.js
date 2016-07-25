@@ -58,33 +58,29 @@ app.on('window-all-closed', function() {
 // record the path of the scripts
 expressApp.scriptPath = app.getPath('userData') + "/scripts";
 
+// check if the path exists
+if (!fs.existsSync(expressApp.scriptPath)) {
+  fs.mkdirSync(expressApp.scriptPath);
+}
+
+// copy the demo scripts from the local store in the script folder
+var resFolder = path.join(__dirname, "scripts");
+// go through all the files
+fs.readdir(resFolder, (err, files) => {
+  if (err) throw err;
+  files.forEach((file) => {
+    var filePath = path.join(resFolder, file);
+    var destinationPath = path.join(expressApp.scriptPath, file);
+    // copy the contents of each file in a new one located in the user data
+    fs.createReadStream(filePath).pipe(fs.createWriteStream(destinationPath));
+  });
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1024, height: 764, title: "uMaster", webPreferences: {"nodeIntegration":false}});
-
-  // check if the script folder exists in the user data folder
-  // if (!fs.existsSync(expressApp.scriptPath)) {
-  //   fs.mkdirSync(expressApp.scriptPath);
-  // }
-  // check if the scripts folder is in the resources
-  // meaning that the application was just installed
-
-//  if (expressApp.settings.env == "production") {
-    var resFolder = path.join(__dirname, "..", "scripts");
-    resFolder = path.normalize(resFolder);
-    console.log("res folder: " + resFolder);
-    if (fs.existsSync(resFolder)) {
-      // fs.mkdirSync(expressApp.scriptPath);
-      //spawn('rm', ['-rf', expressApp.scriptPath]);
-      if (process.platform == 'darwin') {
-        execSync('cp -Rf '+resFolder+ " \"" + app.getPath('userData') + "\"");
-      } else if (process.platform == 'win32') {
-        execSync('xcopy ' + resFolder + " \"" + app.getPath('userData') + "\\scripts\" /S /I /Y");
-      }
-    }
-//  }s
 
   // load the html page
   if (expressApp.settings.env == "development") {
