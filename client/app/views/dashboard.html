@@ -1,0 +1,81 @@
+<div ng-controller="DashboardCtrl">
+  <div ng-show="scripts.length == 0" class="row centered">
+    <p class="flow-text white-text">No activities yet, press the button below to add one now</p>
+    <a href='#activityModal' modal class="btn-floating btn-large waves-effect waves-light" ng-click="prepareScript()">
+      <i tooltipped data-position="right" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i>
+    </a>
+  </div>
+
+  <!-- All scripts section -->
+  <div class="row">
+    <div ng-repeat="scr in scripts">
+      <div class="clearfix" ng-if="$index % 3 == 0"></div>
+      <div class="col s12 m4">
+        <div class="card grey lighten-5 z-depth-1 hoverable">
+          <div class="card-content">
+            <span class="card-title">
+              <a href="#{{scr._id}}" class="grey-text text-darken-3" modal>{{scr.name}}</a>
+            </span>
+            <p class="truncate">
+              <a href="#{{scr._id}}" class="grey-text text-darken-1" modal>{{scr.description}}</a>
+            </p>
+          </div>
+          <div class="card-action">
+            <a class="waves-effect waves-light" data-target="activityModal"  modal ng-click="editScript(scr)"><i class="fa fa-pencil-square-o"></i> Edit</a>
+            <a class="waves-effect waves-light red-text text-darken-4" ng-click="deleteScript(scr.name)"><i class="fa fa-trash"></i> Remove</a>
+            <div class="switch" style="float:right">
+              <label>
+                Off
+                <input type="checkbox" ng-model="scr.active" ng-change="changeScriptStatus(scr)">
+                <span class="lever"></span>
+                On
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description modal -->
+      <div id="{{scr._id}}" class="modal">
+        <div class="modal-content">
+          <h3>{{scr.name}}</h3>
+          <p class="flow-text">{{scr.description}}</p>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-action modal-close waves-effect btn-flat">Close</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-include ng-if="scriptsLoaded" src="'views/addActivity.html'"></ng-include>
+  <ng-include src="'views/update.html'"></ng-include>
+
+</div>
+
+<div class="fixed-action-btn vertical" style="bottom: 60px; right: 24px;">
+  <a class="btn-floating btn-large">
+    <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;">
+  </a>
+  <ul>
+    <li><a tooltipped class="btn-floating red" data-position="left" data-delay="50" data-tooltip="Sign out" ng-click="logOut()">
+      <i class="material-icons">power_settings_new</i></a></li>
+    <li><a href='#updateModal' modal class="btn-floating blue" ng-click="checkForUpdates()">
+      <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Settings">settings</i></a></li>
+    <li><a href='#activityModal' modal class="btn-floating" ng-click="prepareScript()">
+      <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i></a></li>
+  </ul>
+</div>
+
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <h4 class="modal-title">Terms & Conditions</h4>
+    <ng-include src="'views/terms.html'"></ng-include>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+  </div>
+</div>
+
+</div>
