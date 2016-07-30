@@ -176,6 +176,7 @@ module.exports = function(expressApp, route) {
    *  Route to delete a script
    */
   expressApp.post('/script/:name/remove', function(req, res) {
+    console.log("Post remove requeste");
     if (!req.body.user) return res.status(400).send("No user in the body.");
 
     var options = {

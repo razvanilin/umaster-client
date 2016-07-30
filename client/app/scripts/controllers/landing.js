@@ -8,19 +8,27 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('LandingCtrl', function ($scope, $rootScope, User, umasterSocket, $window, store, Script, auth) {
+  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth) {
 
     if (store.get('profile')) {
       $scope.loading = true;
       // create or update the user
+
+      if (!auth.isAuthenticated) {
+        auth.authenticate(store.get('profile'), store.get('token')).then(function(profile) {
+          console.log(profile);
+        });
+      }
+
       User.one().customPOST({user: store.get('profile')}).then(function(user) {
 
-        $rootScope.profile = store.get('profile');
-        $rootScope.profile.type = "pc";
+        Profile.details = store.get('profile');
+        Profile.details.type = "pc";
 
+        console.log(Profile.details);
         $rootScope.loggedin = true;
 
-        umasterSocket.emit('register', $rootScope.profile);
+        umasterSocket.emit('register', Profile.details);
         $scope.loading = false;
 
         Script.one().get({user: store.get('profile').email}).then(function(scripts) {
@@ -44,12 +52,14 @@ angular.module('uMasterApp')
 
           store.set('profile', profile);
           store.set('token', token);
-          $rootScope.profile = profile;
+          Profile.details = profile;
+          console.log("profile");
+          console.log(Profile.details);
           // register the type of the profile
-          $rootScope.profile.type = "pc";
+          Profile.details.type = "pc";
 
           $rootScope.loggedin = true;
-          umasterSocket.emit('register', $rootScope.profile);
+          umasterSocket.emit('register', Profile.details);
           $scope.loading = false;
 
           Script.one().get({user: profile.email}).then(function(scripts) {

@@ -1,12 +1,11 @@
 <ng-include ng-show="loggedin" src="'views/navbar.html'"></ng-include>
 
-<ng-include ng-show="!loggedin && !loading" src="'views/landing.html'"></ng-include>
-
 <div ng-show="!loggedin && loading" class="row" style="text-align:center">
   <h1><i class="fa fa-circle-o-notch fa-spin"></i></h1>
 </div>
 
-<ng-include ng-show="loggedin && !loading" src="'views/dashboard.html'"></ng-include>
+<ng-include ng-if="!loggedin && !loading" src="'views/landing.html'"></ng-include>
+<ng-include ng-if="loggedin && !loading" src="'views/dashboard.html'"></ng-include>
 
 
 <footer class="footer" style="width:100%">

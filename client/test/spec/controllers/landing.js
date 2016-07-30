@@ -9,17 +9,27 @@ describe('Controller: LandingCtrl', function () {
     scope,
     store,
     auth,
+    Profile,
     httpBackend;
 
+  var fauxUser = {
+    email: "raz@raz.com",
+    profile: {
+      firstname: "raz",
+      lastname: "raz"
+    }
+  }
+
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _store_, _auth_, $httpBackend) {
+  beforeEach(inject(function ($controller, $rootScope, _store_, _auth_, $httpBackend, _Profile_) {
     scope = $rootScope.$new();
     store = _store_;
     auth = _auth_;
-    httpBackend = $httpBackend
+    Profile = _Profile_;
+    httpBackend = $httpBackend;
 
-    httpBackend.when('POST', 'http://localhost:8000/user').respond("something");
     httpBackend.when('GET', 'views/main.html').respond("something");
+    auth.authenticate(store.get('profile'), store.get('token'));
 
     LandingCtrl = $controller('LandingCtrl', {
       $scope: scope
@@ -37,24 +47,27 @@ describe('Controller: LandingCtrl', function () {
     expect(store).toBeDefined();
 
     if (store.get('profile')) {
-      expect(scope.profile).toBeDefined();
-      expect(scope.profile.type).toBe('pc');
+      expect(Profile.details.email).toEqual("raz@raz.com");
+      expect(Profile.details.type).toBe('pc');
     } else {
-      expect(scope.profile).toBeUndefined();
+      expect(Profile.details).toEqual({});
     }
   });
 
   it('should populate the profile on authentication', function() {
+    httpBackend.flush();
     expect(auth).toBeDefined();
     expect(scope.signin).toBeDefined();
     scope.signin();
 
-    httpBackend.flush();
-    setTimeout(function() {
-      it ('should be logged in', function() {
-        expect(scope.profile).toBeDefined();
+    httpBackend.when('POST', 'http://localhost:8000/user', fauxUser).respond(fauxUser);
+    //httpBackend.flush();
+
+    //setTimeout(function() {
+      //it ('should be logged in', function() {
+        expect(Profile.details.email).toEqual("raz@raz.com");
         expect(scope.loggedin).toBe(true);
-      });
-    });
+    //  });
+    //});
   });
 });

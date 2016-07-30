@@ -52,6 +52,13 @@ angular
 
     return appStore;
   })
+  .factory('Profile', function() {
+    var profile = {
+      details: {}
+    };
+
+    return profile;
+  })
   .factory('User', function(Restangular) {
     return Restangular.service('user');
   })

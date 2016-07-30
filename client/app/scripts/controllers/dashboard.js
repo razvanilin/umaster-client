@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('DashboardCtrl', function ($scope, auth, store, umasterSocket, Script, AppStore, $rootScope) {
+  .controller('DashboardCtrl', function ($scope, auth, store, Profile, umasterSocket, Script, AppStore, $rootScope) {
     $rootScope.connection = {};
     $rootScope.openUpdateModal = false;
 
@@ -25,24 +25,28 @@ angular.module('uMasterApp')
 
     // ---------------------------------------
 
-    $rootScope.logOut = function() {
+    if (Profile.details) {
+      console.log(Profile.details);
+      $scope.profile = Profile.details;
+    }
+
+    $scope.logOut = function() {
       auth.signout();
       store.remove('profile');
       store.remove('token');
       $rootScope.loggedin = false;
 
-      umasterSocket.emit('unregister', $rootScope.profile);
-      $rootScope.profile = {};
+      umasterSocket.emit('unregister', Profile.details);
+      Profile.details = {};
     };
 
     $scope.deleteScript = function(scriptName) {
       $scope.loading = true;
-      Script.one(scriptName).one('remove').customPOST({user:$rootScope.profile.email}).then(function(scripts) {
+      Script.one(scriptName).one('remove').customPOST({user: Profile.details.email }).then(function(scripts) {
         $rootScope.scripts = scripts;
         $scope.loading = false;
-
         // emit a socket message to let the server know that a new activity was deleted
-        umasterSocket.emit('activity-updated', $rootScope.profile);
+        umasterSocket.emit('activity-updated', Profile.details);
 
       }, function(response) {
         $scope.loading = false;
@@ -53,7 +57,7 @@ angular.module('uMasterApp')
     $scope.changeScriptStatus = function(script) {
       $scope.loading = true;
       Script.one("status").customPUT({
-        user:$rootScope.profile.email,
+        user:Profile.details.email,
         script: {
           _id: script._id,
           status: script.active
@@ -62,7 +66,7 @@ angular.module('uMasterApp')
         $scope.loading = false;
         // emit a message to flag the change
         console.log("emitting");
-        umasterSocket.emit("activity-updated", $rootScope.profile);
+        umasterSocket.emit("activity-updated", Profile.details);
       }, function(response) {
         console.log(response);
         $scope.loading = false;

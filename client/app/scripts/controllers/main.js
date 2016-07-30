@@ -9,6 +9,7 @@
  */
 angular.module('uMasterApp')
   .controller('MainCtrl', function ($scope, Settings, umasterSocket, Script, $rootScope, AppStore) {
+
     // get the client's version
     Settings.one('version').get().then(function(data) {
       $rootScope.clientVersion = data;
