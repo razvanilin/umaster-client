@@ -39,7 +39,7 @@ angular.module('uMasterApp')
       }
 
       if (edit) {
-        Script.one().customPUT({user: $scope.profile.email, script: $scope.script})
+        Script.one().customPUT({user: $rootScope.profile.email, script: $scope.script})
         .then(function(scripts) {
           $rootScope.scripts = scripts;
           $scope.loading = false;
@@ -47,7 +47,7 @@ angular.module('uMasterApp')
           $location.path("/");
 
           // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-updated', $scope.profile);
+          umasterSocket.emit('activity-updated', $rootScope.profile);
 
         }, function(response) {
           console.log(response);
@@ -56,7 +56,7 @@ angular.module('uMasterApp')
         });
 
       } else {
-        Script.post({user: $scope.profile.email, script: $scope.script})
+        Script.post({user: $rootScope.profile.email, script: $scope.script})
         .then(function(scripts) {
 
           $rootScope.scripts = scripts;
@@ -66,7 +66,7 @@ angular.module('uMasterApp')
           $location.path("/");
 
           // emit a socket message to let the server know that a new activity was created
-          umasterSocket.emit('activity-updated', $scope.profile);
+          umasterSocket.emit('activity-updated', $rootScope.profile);
 
         }, function(response) {
           console.log(response);

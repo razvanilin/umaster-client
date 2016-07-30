@@ -26,17 +26,13 @@ angular.module('uMasterApp')
     // ---------------------------------------
 
     $rootScope.logOut = function() {
-      console.log("yo");
       auth.signout();
       store.remove('profile');
       store.remove('token');
-      $scope.loggedin = false;
+      $rootScope.loggedin = false;
 
       umasterSocket.emit('unregister', $rootScope.profile);
       $rootScope.profile = {};
-
-
-      $scope.pinCode = "";
     };
 
     $scope.deleteScript = function(scriptName) {
