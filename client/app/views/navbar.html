@@ -16,11 +16,32 @@
           </a>
         </li>
       </ul-->
-      <ul class="right">
+      <ul class="left">
         <li>
-          <a tooltipped ng-show="!connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Not connected to any clients"><i class="material-icons">portable_wifi_off</i></a>
-          <a tooltipped ng-show="connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Connected to a Web client"><i class="material-icons">settings_input_antenna</i></a>
+          <a href="#" class="button-collapse hide-on-med-and-up" data-activates="nav-mobile" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
+            <i class="large material-icons">menu</i>
+          </a>
         </li>
+      </ul>
+      <ul class="right hide-on-small-only">
+        <li>
+          <a ng-click="navigate('dashboard')"><i ng-class="{'active-menu-item' : page == 'dashboard'}" tooltipped data-position="bottom" data-delay="50"  data-tooltip="View your dashboard" class="large material-icons">dashboard</i></a>
+        </li>
+        <li>
+          <a ng-click="navigate('register-activity')"><i ng-class="{'active-menu-item' : page == 'register-activity'}" tooltipped data-position="bottom" data-delay="50"  data-tooltip="Create a new activity template" class="large material-icons">create</i></a>
+        </li>
+        <li>
+          <a tooltipped ng-show="!connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Not connected to any clients"><i class="large material-icons">portable_wifi_off</i></a>
+          <a tooltipped ng-show="connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Connected to a Web client"><i class="large material-icons">settings_input_antenna</i></a>
+        </li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav fixed hide-on-large-only">
+              <!--Maybe a logo?-->
+              <li class="logo center"><img src="images/logo-color.png" height="70px"></li>
+              <li class="bold"><a ng-click="navigate('dashboard')" class="waves-effect white-text">Dashboard</a></li>
+              <li class="bold"><a ng-click="navigate('register-activity')" class="waves-effect white-text">Register an activity</a></li>
+
       </ul>
     </div>
   </nav>

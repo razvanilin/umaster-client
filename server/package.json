@@ -1,6 +1,6 @@
 {
   "name": "uMaster",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "main.js",
   "description":"Remote script runner",
   "author": {

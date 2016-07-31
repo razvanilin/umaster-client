@@ -27,6 +27,7 @@ angular.module('uMasterApp')
 
         console.log(Profile.details);
         $rootScope.loggedin = true;
+        $scope.$emit("page-change", "dashboard");
 
         umasterSocket.emit('register', Profile.details);
         $scope.loading = false;
@@ -65,6 +66,7 @@ angular.module('uMasterApp')
           Script.one().get({user: profile.email}).then(function(scripts) {
             $rootScope.scripts = scripts;
             // refresh workaround to reset the socket factory settings
+            $scope.$emit('page-change', 'dashboard');
             $window.location.reload();
           }, function(response) {
             console.log(response);

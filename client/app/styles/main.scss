@@ -7,6 +7,7 @@ $jumbotron-bg: #ACD0AE !default;
 // $secondary-color: #70AA74 !default;
 $primary-color: #70AA74 !default;
 $secondary-color: #A76F94 !default;
+$secondary-bg: #CBA8BF !default;
 $link-color: #ACD0AE !default;
 $card-link-color: #A76F94 !default;
 //$panel-bg: #ACD0AE !default;
@@ -189,6 +190,31 @@ nav img {
 .card {
   animation-name: fadein;
   animation-duration: 1s;
+}
+
+a.button-collapse.top-nav {
+    position: absolute;
+    left: 7.5%;
+    top: 0;
+    float: none;
+    margin-left: 1.5rem;
+    color: #fff;
+    font-size: 32px;
+    z-index: 2; }
+a.button-collapse.top-nav.full {
+    line-height: 122px; }
+
+.side-nav {
+  background-color: $secondary-color;
+}
+
+.active-menu-item {
+  color: $secondary-color;
+}
+
+@media only screen and (max-width : 600px) {
+    a.button-collapse.top-nav {
+        left: 5%; }
 }
 
 @keyframes fadein {

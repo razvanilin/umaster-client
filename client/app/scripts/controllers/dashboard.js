@@ -11,6 +11,7 @@ angular.module('uMasterApp')
   .controller('DashboardCtrl', function ($scope, auth, store, Profile, umasterSocket, Script, AppStore, $rootScope) {
     $rootScope.connection = {};
     $rootScope.openUpdateModal = false;
+    $scope.$emit('page-change', 'dashboard');
 
     // Socket messages
     umasterSocket.on('script-accepted', function(script) {

@@ -5,7 +5,8 @@
 </div>
 
 <ng-include ng-if="!loggedin && !loading" src="'views/landing.html'"></ng-include>
-<ng-include ng-if="loggedin && !loading" src="'views/dashboard.html'"></ng-include>
+<ng-include ng-if="loggedin && page == 'dashboard'" src="'views/dashboard.html'"></ng-include>
+<ng-include ng-if="loggedin && page == 'register-activity'" src="'views/registerActivity.html'"></ng-include>
 
 
 <footer class="footer" style="width:100%">
