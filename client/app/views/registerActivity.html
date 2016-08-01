@@ -9,7 +9,45 @@
           In this menu you are able to register new activities with the application.
         </p>
         <p>
-          Write a new script in your favourite editor and then use this interface to plu it in the application to use it as a template.
+          Write a new script in your favourite editor and then use this interface to plug it in the application and use it as a template.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m8">
+    <div class="card grey lighten-5 z-depth-1 hoverable">
+      <div class="card-content">
+        <span class="card-title">
+          Configure your new template
+        </span>
+        <p>
+          <form>
+            <div class="input-field">
+              <input id="templateName"  ng-model="template.name" type="text" class="validate">
+              <label for="templateName">Template Name</label>
+            </div>
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>Script File</span>
+                <input type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" ng-model="template.script_file" type="text" onchange="angular.element(this).scope().file_changed(this)">
+              </div>
+            </div>
+          </form>
+          <div class="fixed-action-btn horizontal">
+            <a class="btn-floating btn-large red">
+              <i class="large material-icons">mode_edit</i>
+            </a>
+            <ul>
+              <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+              <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+              <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+              <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+            </ul>
+          </div>
         </p>
       </div>
     </div>

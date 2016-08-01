@@ -15,6 +15,8 @@ angular.module('uMasterApp')
     $scope.localScripts = AppStore.localScripts;
     $scope.selectedActivity = 0;
 
+    $scope.activities = AppStore.activities;
+
     // ANGULAR FUNCTIONS
     $rootScope.prepareScript = function() {
       $scope.script = {args: []};
@@ -30,8 +32,8 @@ angular.module('uMasterApp')
       // check to see if this an edit request or creation
       var edit = false;
       if ($scope.script._id) {
-        for (var i=0; i<$rootScope.scripts.length; i++) {
-          if ($scope.script._id == $rootScope.scripts[i]._id) {
+        for (var i=0; i<AppStore.activities.length; i++) {
+          if ($scope.script._id == AppStore.activities[i]._id) {
             edit = true;
             break;
           }
@@ -41,7 +43,8 @@ angular.module('uMasterApp')
       if (edit) {
         Script.one().customPUT({user: Profile.details.email, script: $scope.script})
         .then(function(scripts) {
-          $rootScope.scripts = scripts;
+          AppStore.activities = scripts;
+          $scope.activities = activities;
           $scope.loading = false;
           $scope.script = {args: []};
           $location.path("/");
@@ -59,7 +62,9 @@ angular.module('uMasterApp')
         Script.post({user: Profile.details.email, script: $scope.script})
         .then(function(scripts) {
 
-          $rootScope.scripts = scripts;
+          AppStore.activities = scripts;
+          $scope.activities = AppStore.activities;
+          $rootScope.$broadcast("activities-updated");
           console.log(scripts);
           $scope.loading = false;
           $scope.script = {args: []};
