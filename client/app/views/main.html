@@ -8,6 +8,15 @@
 <ng-include ng-if="loggedin && page == 'dashboard'" src="'views/dashboard.html'"></ng-include>
 <ng-include ng-if="loggedin && page == 'register-activity'" src="'views/registerActivity.html'"></ng-include>
 
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <h4 class="modal-title">Terms & Conditions</h4>
+    <ng-include src="'views/terms.html'"></ng-include>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect btn-flat">Cancel</a>
+  </div>
+</div>
 
 <footer class="footer" style="width:100%">
     <p style="font-size:80%;">Developed by Răzvan Ilin | razvanilin.com | uMaster - {{clientVersion}} |

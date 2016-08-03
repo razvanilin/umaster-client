@@ -1,19 +1,4 @@
 <div class="row" ng-controller="RegisterActivityCtrl">
-  <div class="col s12 m4">
-    <div class="card grey lighten-5 z-depth-1 hoverable">
-      <div class="card-content">
-        <span class="card-title">
-          Register a new activity
-        </span>
-        <p>
-          In this menu you are able to register new activities with the application.
-        </p>
-        <p>
-          Write a new script in your favourite editor and then use this interface to plug it in the application and use it as a template.
-        </p>
-      </div>
-    </div>
-  </div>
 
   <div class="col s12 m8">
     <div class="card grey lighten-5 z-depth-1 hoverable">
@@ -21,34 +6,89 @@
         <span class="card-title">
           Configure your new template
         </span>
-        <p>
+        <div class="section">
           <form>
             <div class="input-field">
               <input id="templateName"  ng-model="template.name" type="text" class="validate">
               <label for="templateName">Template Name</label>
             </div>
-            <div class="file-field input-field">
+            <div ng-show="template.name && template.name.length > 3" class="file-field input-field">
               <div class="btn">
                 <span>Script File</span>
                 <input type="file">
               </div>
               <div class="file-path-wrapper">
-                <input class="file-path validate" ng-model="template.script_file" type="text" onchange="angular.element(this).scope().file_changed(this)">
+                <input class="file-path validate" ng-model="template.script_file" type="text" onchange="angular.element(this).scope().selectScriptFile(this)">
               </div>
             </div>
+
           </form>
-          <div class="fixed-action-btn horizontal">
-            <a class="btn-floating btn-large red">
-              <i class="large material-icons">mode_edit</i>
-            </a>
-            <ul>
-              <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-              <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-              <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-              <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <div ng-show="template.script_file && template.args.length > 0" class="section center">
+          <p>Script arguments</p>
+          <div class="chip" ng-class="{'yellow': argument && argument.id == $index, 'green': field.label}" ng-repeat="field in template.args">
+            <span ng-click="editField(field)">{{field.type}}</span>
+            <i class="close material-icons" ng-click="removeField($index)">close</i>
           </div>
-        </p>
+        </div>
+
+        <div ng-show="template.script_file" class="section center">
+          <div class="row">
+            <p>Add fields which act as the script's arguments</p>
+          </div>
+          <div class="row">
+            <div class="col s12 m12">
+              <a class="waves-effect waves-light btn" ng-click="addNewField('file')"><i class="material-icons left">add</i>File</a>
+              <a class="waves-effect waves-light btn" ng-click="addNewField('range')"><i class="material-icons left">add</i>Range</a>
+              <a class="waves-effect waves-light btn" ng-click="addNewField('text')"><i class="material-icons left">add</i>Text</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="template.script_file" class="card-action">
+        <a class="waves-effect waves-light" ng-click="registerTemplate()">Register Template</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m4">
+    <div ng-show="argument" class="row">
+      <div class="card grey lighten-5 z-depth-1 hoverable">
+        <div class="card-content">
+          <span class="card-title">
+            Configure the field
+          </span>
+          <form>
+            <div class="input-field" ng-repeat="conf in argument.configurables">
+              <input id="{{conf}}"  ng-model="argument[conf]" type="text" class="validate">
+              <label for="{{conf}}">{{conf}}</label>
+            </div>
+          </form>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light" ng-click="saveField()">Save</a>
+          <a class="waves-effect waves-light" ng-click="closeEdit()">Close</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card grey lighten-5 z-depth-1 hoverable">
+        <div class="card-content">
+          <span class="card-title">
+            Register a new activity
+          </span>
+          <p>
+            In this menu you are able to register new activities with the application.
+          </p>
+          <p>
+            Write a new script in your favourite editor and then use this interface to plug it in the application and use it as a template.
+          </p>
+        </div>
       </div>
     </div>
   </div>

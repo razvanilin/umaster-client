@@ -71,6 +71,9 @@ angular
   .factory('Settings', function(Restangular) {
     return Restangular.service('settings');
   })
+  .factory('Template', function(Restangular) {
+    return Restangular.service('template');
+  })
   .factory('umasterSocket', function(socketFactory, ENV, store) {
     var socketUrl;
     if (ENV == 'production') {
