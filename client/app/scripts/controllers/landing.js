@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth) {
+  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth, AppStore) {
 
     if (store.get('profile')) {
       $scope.loading = true;
@@ -25,12 +25,6 @@ angular.module('uMasterApp')
 
         umasterSocket.emit('register', Profile.details);
         $scope.loading = false;
-
-        Script.one().get({user: store.get('profile').email}).then(function(scripts) {
-          $rootScope.scripts = scripts;
-        }, function(response) {
-          console.log(response);
-        });
 
       }, function(response) {
         console.log(response);
@@ -57,14 +51,9 @@ angular.module('uMasterApp')
           umasterSocket.emit('register', Profile.details);
           $scope.loading = false;
 
-          Script.one().get({user: profile.email}).then(function(scripts) {
-            $rootScope.scripts = scripts;
-            // refresh workaround to reset the socket factory settings
-            $scope.$emit('page-change', 'dashboard');
-            $window.location.reload();
-          }, function(response) {
-            console.log(response);
-          });
+          // refresh workaround to reset the socket factory settings
+          $scope.$emit('page-change', 'dashboard');
+          $window.location.reload();
 
         }, function(response) {
           console.log(response);

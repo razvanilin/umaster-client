@@ -15,8 +15,6 @@ angular.module('uMasterApp')
     $scope.localScripts = AppStore.localScripts;
     $scope.selectedActivity = 0;
 
-    $scope.activities = AppStore.activities;
-
     // ANGULAR FUNCTIONS
     $rootScope.prepareScript = function() {
       $scope.script = {args: []};
@@ -44,7 +42,9 @@ angular.module('uMasterApp')
         Script.one().customPUT({user: Profile.details.email, script: $scope.script})
         .then(function(scripts) {
           AppStore.activities = scripts;
-          $scope.activities = activities;
+          // report the changes to the parent
+          $scope.$emit("activity-updated", "something");
+
           $scope.loading = false;
           $scope.script = {args: []};
           $location.path("/");
@@ -63,9 +63,9 @@ angular.module('uMasterApp')
         .then(function(scripts) {
 
           AppStore.activities = scripts;
-          $scope.activities = AppStore.activities;
-          $rootScope.$broadcast("activities-updated");
-          console.log(scripts);
+          // report the changes to the parent
+          $scope.$emit("activity-updated", "something");
+
           $scope.loading = false;
           $scope.script = {args: []};
           $location.path("/");

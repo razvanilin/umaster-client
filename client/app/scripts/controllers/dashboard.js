@@ -11,7 +11,20 @@ angular.module('uMasterApp')
   .controller('DashboardCtrl', function ($scope, auth, store, Profile, umasterSocket, Script, AppStore, $rootScope) {
     $rootScope.connection = {};
     $rootScope.openUpdateModal = false;
+
+    Script.one().get({user: Profile.details.email}).then(function(scripts) {
+      AppStore.activities = scripts;
+      $scope.scripts = AppStore.activities;
+    }, function(response) {
+      console.log(response);
+    });
+
     $scope.$emit('page-change', 'dashboard');
+
+    // update the activities
+    $scope.$on('activity-updated', function() {
+      $scope.scripts = AppStore.activities;
+    });
 
     // Socket messages
     umasterSocket.on('script-accepted', function(script) {
@@ -44,7 +57,8 @@ angular.module('uMasterApp')
     $scope.deleteScript = function(scriptName) {
       $scope.loading = true;
       Script.one(scriptName).one('remove').customPOST({user: Profile.details.email }).then(function(scripts) {
-        $rootScope.scripts = scripts;
+        AppStore.activities = scripts;
+        $scope.scripts = scripts;
         $scope.loading = false;
         // emit a socket message to let the server know that a new activity was deleted
         umasterSocket.emit('activity-updated', Profile.details);
