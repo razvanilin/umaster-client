@@ -14,12 +14,6 @@ angular.module('uMasterApp')
       $scope.loading = true;
       // create or update the user
 
-      if (!auth.isAuthenticated) {
-        auth.authenticate(store.get('profile'), store.get('token')).then(function(profile) {
-          console.log(profile);
-        });
-      }
-
       User.one().customPOST({user: store.get('profile')}).then(function(user) {
 
         Profile.details = store.get('profile');
