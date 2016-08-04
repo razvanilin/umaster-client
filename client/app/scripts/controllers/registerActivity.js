@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('RegisterActivityCtrl', function ($scope, Template) {
+  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST) {
 
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
@@ -59,25 +59,30 @@ angular.module('uMasterApp')
     $scope.registerTemplate = function() {
       Template.one().customPOST($scope.template).then(function(data) {
         console.log(data);
+
+        // upload the file
+        $scope.f.upload = Upload.upload({
+                url: HOST + '/template/file',
+                data: {file: $scope.f}
+            });
+
+            $scope.f.upload.then(function (response) {
+                $timeout(function () {
+                    $scope.f.result = response.data;
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                $scope.f.progress = Math.min(100, parseInt(100.0 *
+                                         evt.loaded / evt.total));
+            });
       }, function(response) {
         console.log(response);
       });
     }
 
-    $scope.selectScriptFile = function(element, parent) {
-      // extract the argument index (for the $scope.script.args)
-      var argsIndex = parseInt(element.id.substring(element.id.lastIndexOf("e")+1));
-
-      $scope.$apply(function(scope) {
-         var file = element.files[0];
-
-         $scope.template.script_file = file.path;
-
-         var reader = new FileReader();
-         reader.onload = function(e) {
-            //
-         };
-         reader.readAsDataURL(file);
-      });
-    };
+    $scope.selectScriptFile = function(file, errFiles) {
+      $scope.f = file;
+    }
   });

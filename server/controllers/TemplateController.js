@@ -35,6 +35,23 @@ module.exports = (app, route) => {
     });
   });
 
+  /*
+  ** Route to upload the script file
+  */
+  app.post("/template/file", (req, res) => {
+    req.pipe(req.busboy);
+    req.busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      var uploadPath = path.join(app.scriptPath, filename);
+
+      var stream = fs.createWriteStream(uploadPath);
+      file.pipe(stream);
+
+      stream.on('close', () => {
+        return res.status(200).send("File copied in the scripts folder.");
+      });
+    });
+  });
+
   return (req, res, next) => {
     next();
   }

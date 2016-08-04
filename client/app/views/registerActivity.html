@@ -15,10 +15,10 @@
             <div ng-show="template.name && template.name.length > 3" class="file-field input-field">
               <div class="btn">
                 <span>Script File</span>
-                <input type="file">
+                <input type="file" ngf-select="selectScriptFile($file, $invalidFiles)">
               </div>
               <div class="file-path-wrapper">
-                <input class="file-path validate" ng-model="template.script_file" type="text" onchange="angular.element(this).scope().selectScriptFile(this)">
+                <input class="file-path validate" ng-model="template.script_file" type="text">
               </div>
             </div>
 

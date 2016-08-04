@@ -47,7 +47,8 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.app %>/scripts/config.js'
         },
         constants: {
-          ENV: 'development'
+          ENV: 'development',
+          HOST: 'http://localhost:8000'
         }
       },
       production: {
@@ -55,7 +56,8 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.app %>/scripts/config.js'
         },
         constants: {
-          ENV: 'production'
+          ENV: 'production',
+          HOST: 'http://localhost:8000'
         }
       }
     },

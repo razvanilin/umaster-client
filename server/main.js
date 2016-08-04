@@ -17,9 +17,9 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var execSync = require('child_process').execSync;
 var util = require('util');
+var busboy = require('connect-busboy');
 expressApp.packageJson = require("./package.json");
 expressApp.autoUpdater = electron.autoUpdater;
-
 
 process.on('uncaughtException', function (error) {
   console.log(error.stack);
@@ -43,6 +43,8 @@ expressApp.use(cors());
 
 expressApp.use(express.static(path.join(__dirname, 'public')));
 expressApp.set('/', path.join(__dirname, 'public'));
+
+expressApp.use(busboy());
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {

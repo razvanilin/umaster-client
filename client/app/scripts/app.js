@@ -18,10 +18,11 @@ angular
     'ngRoute',
     'ngResource',
     'ui.materialize',
-    'config'
+    'config',
+    'ngFileUpload'
   ])
-  .config(function ($routeProvider, $httpProvider, RestangularProvider, authProvider, jwtInterceptorProvider) {
-    RestangularProvider.setBaseUrl("http://localhost:8000");
+  .config(function ($routeProvider, $httpProvider, RestangularProvider, authProvider, jwtInterceptorProvider, HOST) {
+    RestangularProvider.setBaseUrl(HOST);
 
     jwtInterceptorProvider.tokenGetter = ['store', function(store) {
       // Return the saved token
