@@ -8,16 +8,23 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST) {
+  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore) {
 
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
     var textConfigurables = ["label", "placeholder"];
     var fileConfigurables = ["label"];
 
-    $scope.template = {
-      args: []
-    };
+
+    $scope.startOver = function() {
+      $scope.template = {
+        args: []
+      };
+      $scope.argument = null;
+      $scope.templateSaved = false;
+    }
+    $scope.startOver();
+
 
     $scope.addNewField = function(fieldType) {
       $scope.template.args[$scope.template.args.length] = {
@@ -58,7 +65,16 @@ angular.module('uMasterApp')
 
     $scope.registerTemplate = function() {
       Template.one().customPOST($scope.template).then(function(data) {
-        console.log(data);
+        $scope.templateSaved = true;
+        // reload the local script
+        // load the local scripts configuration in the background
+        Script.one('local').get().then(function(localScripts) {
+          AppStore.localScripts = localScripts;
+          $rootScope.scriptsLoaded = true;
+          console.log(AppStore.localScripts);
+        }, function(response) {
+          console.log(response);
+        });
 
         // upload the file
         $scope.f.upload = Upload.upload({
@@ -84,5 +100,9 @@ angular.module('uMasterApp')
 
     $scope.selectScriptFile = function(file, errFiles) {
       $scope.f = file;
+    }
+
+    $scope.goToDashboard = function() {
+      $scope.$emit('page-change', 'dashboard');
     }
   });
