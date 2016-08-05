@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore) {
+  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore, Profile) {
 
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
@@ -64,7 +64,7 @@ angular.module('uMasterApp')
     }
 
     $scope.registerTemplate = function() {
-      Template.one().customPOST($scope.template).then(function(data) {
+      Template.one().customPOST({template: $scope.template, user: Profile.details}).then(function(data) {
         $scope.templateSaved = true;
         // reload the local script
         // load the local scripts configuration in the background
@@ -79,7 +79,7 @@ angular.module('uMasterApp')
         // upload the file
         $scope.f.upload = Upload.upload({
                 url: HOST + '/template/file',
-                data: {file: $scope.f}
+                data: {name: $scope.template, file: $scope.f}
             });
 
             $scope.f.upload.then(function (response) {
