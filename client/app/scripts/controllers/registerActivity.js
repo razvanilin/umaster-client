@@ -12,7 +12,7 @@ angular.module('uMasterApp')
 
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
-    var textConfigurables = ["label", "placeholder"];
+    var textConfigurables = ["label"];
     var fileConfigurables = ["label"];
 
 
