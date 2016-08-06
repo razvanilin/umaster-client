@@ -70,7 +70,6 @@ angular.module('uMasterApp')
         // load the local scripts configuration in the background
         Script.one('local').get().then(function(localScripts) {
           AppStore.localScripts = localScripts;
-          $rootScope.scriptsLoaded = true;
           console.log(AppStore.localScripts);
         }, function(response) {
           console.log(response);
