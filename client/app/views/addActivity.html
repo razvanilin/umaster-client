@@ -8,7 +8,7 @@
         <div class="input-field">
           <label ng-show="!input.selectedActivity" for="inputType">Select Activity*</label>
           <select id="inputType" ng-model="input.selectedActivity" ng-change="selectScriptFile()" material-select watch
-                  ng-options="activity.script_id as activity.name for activity in localScripts">
+                  ng-options="activity.template_id as activity.name for activity in localScripts">
             <!-- option ng-repeat="activity in localScripts" value="{{$index}}" ng-selected="input.selectedActivity == $index">{{activity.name}}</option -->
           </select>
         </div>

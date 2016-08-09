@@ -32,6 +32,42 @@ module.exports = (app, route) => {
 
         // if config flag is true then also generate the config file and scripts
 
+        // create the config json
+        var scriptsConfFile;
+        if (process.platform == 'darwin') {
+          scriptsConfFile = 'scriptsConfOsx.json';
+        } else if (process.platform == 'win32') {
+          scriptsConfFile = 'scriptsConfWin.json';
+        }
+
+        var scriptsConfPath = path.join(app.scriptPath, scriptsConfFile);
+        var configFileContents = [];
+
+        // prepare to populate the config file and generate the script files
+        responseString.map(template => {
+          var tempTemplate = {
+            template_id: template.template_id,
+            name: template.name,
+            creator: template._creator.profile.nickname,
+            script_file: template.script_file,
+            args: template.args,
+            createdAt: template.createdAt,
+            updatedAt: template.updatedAt
+          }
+          configFileContents.push(tempTemplate);
+
+          fs.writeFile(path.join(app.scriptPath, template.script_file), template.script_file_data.data, 'base64', (err) => {
+            if (err) console.log(err);
+            else console.log(template.script_file + " was generated :)");
+          });
+        });
+
+        fs.writeFile(scriptsConfPath, JSON.stringify(configFileContents,null,2), (err) => {
+          if (err) return res.status(400).send(err);
+
+          return res.status(200).send("Configuration completed successfully.");
+        });
+
       } catch (e) {
         console.log(e);
         console.log(body);
@@ -63,9 +99,6 @@ module.exports = (app, route) => {
     templateId = uuid.v4();
     newTemplate.template_id = templateId;
 
-    // add the new template to the script conf json
-    scriptsConf.push(newTemplate);
-
     // prepare the request options
     var options = {
       url: app.settings.host + "/template",
@@ -77,20 +110,13 @@ module.exports = (app, route) => {
       }
     }
 
-    // write the new json to the config file
-    fs.writeFile(scriptsConfPath, JSON.stringify(scriptsConf,null,2), (err) => {
-      if (err) {
-        return res.status(400).send(err);
-      }
+    // register the template with the server
+    request(options, (error, resp, body) => {
+      if (error) return res.status(400).send(error);
 
-      // register the template with the server
-      request(options, (error, resp, body) => {
-        if (error) return res.status(400).send(error);
+      if (resp.statusCode == 200) return res.status(200).send(scriptsConf);
 
-        if (resp.statusCode == 200) return res.status(200).send(scriptsConf);
-
-        return res.status(400).send(resp);
-      });
+      return res.status(400).send(resp);
     });
   });
   // ----------------------------------------------------

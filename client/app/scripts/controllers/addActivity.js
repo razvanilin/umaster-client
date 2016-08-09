@@ -25,7 +25,7 @@ angular.module('uMasterApp')
 
       // save script configuration
       $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;
-      $scope.script.script_id = $scope.localScripts[$scope.selectedActivity].script_id;
+      $scope.script.template_id = $scope.localScripts[$scope.selectedActivity].template_id;
 
       // check to see if this an edit request or creation
       var edit = false;
@@ -83,10 +83,10 @@ angular.module('uMasterApp')
 
     $rootScope.editScript = function(script) {
         $scope.script = script;
-        if (script.script_id) {
-          $scope.input.selectedActivity = script.script_id;
+        if (script.template_id) {
+          $scope.input.selectedActivity = script.template_id;
           for (var i=0; i<$scope.localScripts.length; i++) {
-            if ($scope.localScripts[i].script_id == script.script_id) {
+            if ($scope.localScripts[i].template_id == script.template_id) {
               $scope.selectedActivity = i;
               console.log($scope.selectedActivity);
               break;
@@ -117,7 +117,7 @@ angular.module('uMasterApp')
       console.log($scope.input.selectedActivity);
       // find the index of the selected activity
       for (var i=0; i<$scope.localScripts.length; i++) {
-        if ($scope.localScripts[i].script_id == $scope.input.selectedActivity) {
+        if ($scope.localScripts[i].template_id == $scope.input.selectedActivity) {
           $scope.selectedActivity = i;
           console.log($scope.selectedActivity);
           break;
@@ -126,6 +126,6 @@ angular.module('uMasterApp')
 
       // add the script file
       $scope.script.script_file = $scope.localScripts[$scope.selectedActivity].script_file;
-      $scope.script.script_id = $scope.localScripts[$scope.selectedActivity].script_id;
+      $scope.script.template_id = $scope.localScripts[$scope.selectedActivity].template_id;
     };
   });

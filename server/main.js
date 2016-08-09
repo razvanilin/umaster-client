@@ -64,18 +64,18 @@ expressApp.scriptPath = app.getPath('userData') + "/scripts";
 if (!fs.existsSync(expressApp.scriptPath)) {
   fs.mkdirSync(expressApp.scriptPath);
 
-  // copy the demo scripts from the local store in the script folder
-  var resFolder = path.join(__dirname, "scripts");
-  // go through all the files
-  fs.readdir(resFolder, (err, files) => {
-    if (err) throw err;
-    files.forEach((file) => {
-      var filePath = path.join(resFolder, file);
-      var destinationPath = path.join(expressApp.scriptPath, file);
-      // copy the contents of each file in a new one located in the user data
-      fs.createReadStream(filePath).pipe(fs.createWriteStream(destinationPath));
-    });
-  });
+  // // copy the demo scripts from the local store in the script folder
+  // var resFolder = path.join(__dirname, "scripts");
+  // // go through all the files
+  // fs.readdir(resFolder, (err, files) => {
+  //   if (err) throw err;
+  //   files.forEach((file) => {
+  //     var filePath = path.join(resFolder, file);
+  //     var destinationPath = path.join(expressApp.scriptPath, file);
+  //     // copy the contents of each file in a new one located in the user data
+  //     fs.createReadStream(filePath).pipe(fs.createWriteStream(destinationPath));
+  //   });
+  // });
 }
 
 // This method will be called when Electron has finished

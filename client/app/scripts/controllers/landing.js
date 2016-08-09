@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth, AppStore) {
+  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth, AppStore, Template) {
 
     if (store.get('profile')) {
       $scope.loading = true;
@@ -20,11 +20,18 @@ angular.module('uMasterApp')
         Profile.details.type = "pc";
 
         console.log(Profile.details);
-        $rootScope.loggedin = true;
-        $scope.$emit("page-change", "dashboard");
 
-        umasterSocket.emit('register', Profile.details);
-        $scope.loading = false;
+        // generate the templates
+        Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+          console.log(data);
+          $rootScope.loggedin = true;
+          $scope.$emit("page-change", "dashboard");
+
+          umasterSocket.emit('register', Profile.details);
+          $scope.loading = false;
+        }, function(response) {
+          console.log(response);
+        });
 
       }, function(response) {
         console.log(response);
