@@ -8,6 +8,42 @@ module.exports = (app, route) => {
   // global unique id for new templates
   var templateId;
 
+  /*
+  ** Route to get the user's templates and generate the configuration file if the flag is true
+  */
+  app.get('/template', (req, res) => {
+    if (!req.query.user) return res.status(400).send("The user parameter is required for this request.");
+
+    var options = {
+      url: app.settings.host + '/template?user=' + req.query.user,
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    };
+
+    request(options, (error, resp, body) => {
+      if (error) return res.status(400).send(error);
+
+      try {
+        var responseString = JSON.parse(body);
+        // if the config flag is not present, then return just the templates
+        if (!req.query.config) return res.status(200).send(responseString);
+
+        // if config flag is true then also generate the config file and scripts
+
+      } catch (e) {
+        console.log(e);
+        console.log(body);
+        return res.status(400).send(body);
+      }
+    });
+  });
+  // ----------------------------------------------------
+
+  /*
+  ** Route to create a new template
+  */
   app.post("/template", (req, res) => {
     if (!req.body.template.name) return res.status(400).send("The request is missing the name field.");
     if (!req.body.template.script_file) return res.status(400).send("The request is missing the script_file field.");
