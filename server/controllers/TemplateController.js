@@ -85,19 +85,14 @@ module.exports = (app, route) => {
     if (!req.body.template.script_file) return res.status(400).send("The request is missing the script_file field.");
     if (!req.body.template.args) return res.status(400).send("The request is missing the args field.");
 
-    var scriptsConfFile;
-    if (process.platform == 'darwin') {
-      scriptsConfFile = 'scriptsConfOsx.json';
-    } else if (process.platform == 'win32') {
-      scriptsConfFile = 'scriptsConfWin.json';
-    }
-
-    var scriptsConfPath = path.join(app.scriptPath, scriptsConfFile);
-    var scriptsConf = JSON.parse(fs.readFileSync(scriptsConfPath));
-
     var newTemplate = req.body.template;
-    templateId = uuid.v4();
-    newTemplate.template_id = templateId;
+    // generate a unique id if the id is not present in the request
+    if (!newTemplate.template_id) {
+      templateId = uuid.v4();
+      newTemplate.template_id = templateId;
+    } else {
+      templateId = newTemplate.template_id;
+    }
 
     // prepare the request options
     var options = {
@@ -114,7 +109,7 @@ module.exports = (app, route) => {
     request(options, (error, resp, body) => {
       if (error) return res.status(400).send(error);
 
-      if (resp.statusCode == 200) return res.status(200).send(scriptsConf);
+      if (resp.statusCode == 200) return res.status(200).send(body);
 
       return res.status(400).send(resp);
     });

@@ -6,7 +6,7 @@
 
 <ng-include ng-if="!loggedin && !loading" src="'views/landing.html'"></ng-include>
 <ng-include ng-if="loggedin && page == 'dashboard'" src="'views/dashboard.html'"></ng-include>
-<ng-include ng-if="loggedin && page == 'register-activity'" src="'views/registerActivity.html'"></ng-include>
+<ng-include ng-if="loggedin && (page == 'templates' || page == 'register-activity')" src="'views/templates.html'"></ng-include>
 
 <div id="termsModal" class="modal">
   <div class="modal-content">

@@ -9,7 +9,6 @@
  */
 angular.module('uMasterApp')
   .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore, Profile) {
-
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
     var textConfigurables = ["label"];
@@ -23,7 +22,9 @@ angular.module('uMasterApp')
       $scope.argument = null;
       $scope.templateSaved = false;
     }
-    $scope.startOver();
+
+    // if no edit was requested, start fresh
+    if (!$scope.edit) $scope.startOver();
 
 
     $scope.addNewField = function(fieldType) {
@@ -85,6 +86,7 @@ angular.module('uMasterApp')
                 $timeout(function () {
                     $scope.f.result = response.data;
                 });
+                $scope.startOver();
             }, function (response) {
                 if (response.status > 0)
                     $scope.errorMsg = response.status + ': ' + response.data;
