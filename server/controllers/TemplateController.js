@@ -170,6 +170,25 @@ module.exports = (app, route) => {
   });
   // ----------------------------------------------------
 
+  /*
+  ** Route to remove a template
+  */
+  app.post('/template/:id/remove', (req, res) => {
+    var options = {
+      url: app.settings.host + "/template/"+req.params.id+"/remove",
+      method: "POST",
+      headers: {
+        "Accept": "application/json"
+      }
+    };
+
+    request(options, (error, resp, body) => {
+      if (error) return res.status(400).send(error);
+
+      return res.status(resp.statusCode).send(body);
+    })
+  });
+  // --------------------------------------------
 
   return (req, res, next) => {
     next();

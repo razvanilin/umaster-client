@@ -23,7 +23,6 @@ angular.module('uMasterApp')
 
         // generate the templates
         Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
-          console.log(data);
           $rootScope.loggedin = true;
           $scope.$emit("page-change", "dashboard");
 
@@ -54,13 +53,18 @@ angular.module('uMasterApp')
           // register the type of the profile
           Profile.details.type = "pc";
 
-          $rootScope.loggedin = true;
-          umasterSocket.emit('register', Profile.details);
-          $scope.loading = false;
+          // generate the templates
+          Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+            $rootScope.loggedin = true;
+            umasterSocket.emit('register', Profile.details);
+            $scope.loading = false;
 
-          // refresh workaround to reset the socket factory settings
-          $scope.$emit('page-change', 'dashboard');
-          $window.location.reload();
+            // refresh workaround to reset the socket factory settings
+            $scope.$emit('page-change', 'dashboard');
+            $window.location.reload();
+          }, function(response) {
+            console.log(response);
+          });
 
         }, function(response) {
           console.log(response);

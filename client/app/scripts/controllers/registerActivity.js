@@ -85,8 +85,20 @@ angular.module('uMasterApp')
             $scope.f.upload.then(function (response) {
                 $timeout(function () {
                     $scope.f.result = response.data;
+
+                    // generate the templates after the upload is successful
+                    Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+                      console.log(data);
+                    }, function(response) {
+                      console.log(response);
+                    });
+
+                    // reset everything
+                    $scope.template = {
+                      args: []
+                    };
+                    $scope.argument = null;
                 });
-                $scope.startOver();
             }, function (response) {
                 if (response.status > 0)
                     $scope.errorMsg = response.status + ': ' + response.data;
@@ -94,6 +106,7 @@ angular.module('uMasterApp')
                 $scope.f.progress = Math.min(100, parseInt(100.0 *
                                          evt.loaded / evt.total));
             });
+
       }, function(response) {
         console.log(response);
       });
