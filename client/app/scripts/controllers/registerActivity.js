@@ -66,47 +66,68 @@ angular.module('uMasterApp')
 
     $scope.registerTemplate = function() {
       Template.one().customPOST({template: $scope.template, user: Profile.details}).then(function(data) {
-        $scope.templateSaved = true;
         // reload the local script
-        // load the local scripts configuration in the background
-        Script.one('local').get().then(function(localScripts) {
-          AppStore.localScripts = localScripts;
-          console.log(AppStore.localScripts);
-        }, function(response) {
-          console.log(response);
-        });
 
-        // upload the file
-        $scope.f.upload = Upload.upload({
-                url: HOST + '/template/file',
-                data: {name: $scope.template, file: $scope.f}
-            });
+        if ($scope.f) {
+          // upload the file only if it was modified
+          $scope.f.upload = Upload.upload({
+              url: HOST + '/template/file',
+              data: {name: $scope.template, file: $scope.f}
+          });
 
-            $scope.f.upload.then(function (response) {
-                $timeout(function () {
-                    $scope.f.result = response.data;
+          $scope.f.upload.then(function (response) {
+              $timeout(function () {
+                  $scope.f.result = response.data;
 
-                    // generate the templates after the upload is successful
-                    Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
-                      console.log(data);
+                  // generate the templates after the upload is successful
+                  Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+                    $scope.templateSaved = true;
+
+                    // load the local scripts configuration in the background
+                    Script.one('local').get().then(function(localScripts) {
+                      AppStore.localScripts = localScripts;
+                      console.log(AppStore.localScripts);
                     }, function(response) {
                       console.log(response);
                     });
 
-                    // reset everything
-                    $scope.template = {
-                      args: []
-                    };
-                    $scope.argument = null;
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                $scope.f.progress = Math.min(100, parseInt(100.0 *
-                                         evt.loaded / evt.total));
+                    console.log(data);
+                  }, function(response) {
+                    console.log(response);
+                  });
+
+                  // reset everything
+                  $scope.template = {
+                    args: []
+                  };
+                  $scope.argument = null;
+              });
+          }, function (response) {
+              if (response.status > 0)
+                  $scope.errorMsg = response.status + ': ' + response.data;
+          }, function (evt) {
+              $scope.f.progress = Math.min(100, parseInt(100.0 *
+                                       evt.loaded / evt.total));
+          });
+
+        } else {
+          // regenerate the config file
+          Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+            $scope.templateSaved = true;
+
+            // load the local scripts configuration in the background
+            Script.one('local').get().then(function(localScripts) {
+              AppStore.localScripts = localScripts;
+              console.log(AppStore.localScripts);
+            }, function(response) {
+              console.log(response);
             });
 
+            console.log(data);
+          }, function(response) {
+            console.log(response);
+          });
+        }
       }, function(response) {
         console.log(response);
       });

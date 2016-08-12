@@ -39,14 +39,8 @@ module.exports = function(expressApp, route) {
    *  Route to get the scripts found in the scriptsConf.json
    */
   expressApp.get('/script/local', function(req, res) {
-    var scriptsConfFile;
-    if (process.platform == 'darwin') {
-      scriptsConfFile = 'scriptsConfOsx.json';
-    } else if (process.platform == 'win32') {
-      scriptsConfFile = 'scriptsConfWin.json';
-    }
 
-    var scriptsConfPath = path.join(expressApp.scriptPath, scriptsConfFile);
+    var scriptsConfPath = path.join(expressApp.scriptPath, expressApp.scriptsConf);
     scriptsConfPath = path.normalize(scriptsConfPath);
 
     var scriptsConf;

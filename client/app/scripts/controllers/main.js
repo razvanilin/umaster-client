@@ -25,15 +25,6 @@ angular.module('uMasterApp')
       console.log(response);
     });
 
-    // load the local scripts configuration in the background
-    Script.one('local').get().then(function(localScripts) {
-      AppStore.localScripts = localScripts;
-      $rootScope.scriptsLoaded = true;
-      console.log(AppStore.localScripts);
-    }, function(response) {
-      console.log(response);
-    });
-
     $scope.navigate = function(path) {
       $scope.page = path;
       store.set('page', path);

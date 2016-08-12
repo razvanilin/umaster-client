@@ -59,6 +59,7 @@ app.on('window-all-closed', function() {
 
 // record the path of the scripts
 expressApp.scriptPath = app.getPath('userData') + "/scripts";
+expressApp.scriptsConf = "scriptsConf.json";
 
 // check if the path exists and if it doesn't, create it and install the scripts
 if (!fs.existsSync(expressApp.scriptPath)) {

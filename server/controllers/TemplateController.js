@@ -33,18 +33,17 @@ module.exports = (app, route) => {
         // if config flag is true then also generate the config file and scripts
 
         // create the config json
-        var scriptsConfFile;
-        if (process.platform == 'darwin') {
-          scriptsConfFile = 'scriptsConfOsx.json';
-        } else if (process.platform == 'win32') {
-          scriptsConfFile = 'scriptsConfWin.json';
-        }
 
-        var scriptsConfPath = path.join(app.scriptPath, scriptsConfFile);
+        var scriptsConfPath = path.join(app.scriptPath, app.scriptsConf);
         var configFileContents = [];
 
         // prepare to populate the config file and generate the script files
         responseString.map(template => {
+
+          // continue to the next item if the template is not compatible with the platform
+          if (process.platform == "darwin" && !template.platforms.osx) return;
+          if (process.platform == "win32" && !template.platforms.win) return;
+
           var tempTemplate = {
             template_id: template.template_id,
             name: template.name,
@@ -59,14 +58,13 @@ module.exports = (app, route) => {
 
           fs.writeFile(path.join(app.scriptPath, template.script_file), template.script_file_data.data, 'base64', (err) => {
             if (err) console.log(err);
-            else console.log(template.script_file + " was generated :)");
           });
         });
 
         fs.writeFile(scriptsConfPath, JSON.stringify(configFileContents,null,2), (err) => {
           if (err) return res.status(400).send(err);
-
-          return res.status(200).send("Configuration completed successfully.");
+          console.log(configFileContents);
+          return res.status(200).send(configFileContents);
         });
 
       } catch (e) {
