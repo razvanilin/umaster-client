@@ -74,13 +74,7 @@ module.exports = function(expressApp, route) {
       method: "POST",
       form: {
         user: req.body.user,
-        script: {
-          name:req.body.script.name,
-          script_file: req.body.script.script_file,
-          script_id: req.body.script.script_id,
-          description: req.body.script.description,
-          args: req.body.script.args
-        }
+        script: req.body.script
       },
       header: {
         "Accept": "application/json",
@@ -245,6 +239,7 @@ module.exports = function(expressApp, route) {
           }
         }
         // execute
+        console.log(script + " " + args);
         command = exec(script + " " + args);
       } else {
         command = exec(script);

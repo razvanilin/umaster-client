@@ -14,6 +14,7 @@ angular.module('uMasterApp')
 
     Script.one().get({user: Profile.details.email}).then(function(scripts) {
       AppStore.activities = scripts;
+      console.log(scripts);
       $scope.scripts = AppStore.activities;
     }, function(response) {
       console.log(response);

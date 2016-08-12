@@ -50,6 +50,7 @@ module.exports = (app, route) => {
             name: template.name,
             creator: template._creator.profile.nickname,
             script_file: template.script_file,
+            platforms: template.platforms,
             args: template.args,
             createdAt: template.createdAt,
             updatedAt: template.updatedAt
@@ -171,12 +172,12 @@ module.exports = (app, route) => {
   // ----------------------------------------------------
 
   /*
-  ** Route to remove a template
+  ** Route to remove a template (make it inactive)
   */
-  app.post('/template/:id/remove', (req, res) => {
+  app.get('/template/:id/remove', (req, res) => {
     var options = {
       url: app.settings.host + "/template/"+req.params.id+"/remove",
-      method: "POST",
+      method: "GET",
       headers: {
         "Accept": "application/json"
       }

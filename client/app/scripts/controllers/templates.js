@@ -23,4 +23,12 @@ angular.module('uMasterApp')
       $scope.template = temp;
       $scope.navigate('register-activity');
     }
+
+    $scope.deleteTemplate = function(temp, index) {
+      Template.one(temp._id).one('remove').get().then(function(data) {
+        $scope.templates.splice(index,1);
+      }, function(response) {
+        console.log(response);
+      });
+    }
   });

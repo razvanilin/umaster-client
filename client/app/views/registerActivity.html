@@ -36,13 +36,27 @@
                 <input class="file-path validate" ng-model="template.script_file" type="text">
               </div>
             </div>
-
+            <div ng-show="template.script_file" class="input-field">
+              <label for="inputDescription">Template Description</label>
+              <textarea ng-model="template.description" class="materialize-textarea" id="inputDescription"></textarea>
+            </div>
+            <div ng-show="template.script_file">
+              <p>Platform:</p>
+              <span>
+                <input type="checkbox" ng-model="template.platforms.win" id="windowsCheck">
+                <label for="windowsCheck">Windows</label>
+              </span>
+              <span>
+                <input type="checkbox" ng-model="template.platforms.osx" id="osxCheck">
+                <label for="osxCheck">OS X</label>
+              </span>
+            </div>
           </form>
         </div>
 
         <div class="divider"></div>
 
-        <div ng-show="template.script_file && template.args.length > 0" class="section center">
+        <div ng-show="(template.platforms.win || template.platforms.osx) && template.args.length > 0" class="section center">
           <p>Script arguments</p>
           <div class="chip" ng-class="{'yellow': argument && argument.id == $index, 'green': field.label}" ng-repeat="field in template.args">
             <span ng-click="editField(field)">{{field.type}}</span>
@@ -50,7 +64,7 @@
           </div>
         </div>
 
-        <div ng-show="template.script_file" class="section center">
+        <div ng-show="template.platforms.win || template.platforms.osx" class="section center">
           <div class="row">
             <p>Add fields which act as the script's arguments</p>
           </div>
@@ -64,7 +78,7 @@
         </div>
       </div>
 
-      <div ng-show="template.script_file" class="card-action">
+      <div ng-show="template.platforms.win || template.platforms.osx" class="card-action">
         <a class="waves-effect waves-light" ng-click="registerTemplate()">Register Template</a>
       </div>
     </div>
