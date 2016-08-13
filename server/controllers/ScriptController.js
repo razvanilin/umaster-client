@@ -13,7 +13,7 @@ module.exports = function(expressApp, route) {
     if (!req.query.user) return res.status(400).send("No user found in the query.");
 
     var options = {
-      url: expressApp.settings.host + "/script/?user=" + req.query.user,
+      url: expressApp.settings.host + "/script/?user=" + req.query.user + "&auth_token=" + req.query.auth_token,
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -64,7 +64,7 @@ module.exports = function(expressApp, route) {
     if (!req.body.script.name) return res.status(400).send("Script needs a name.");
 
     var options = {
-      url: expressApp.settings.host + "/script",
+      url: expressApp.settings.host + "/script?auth_token=" + req.query.auth_token,
       method: "POST",
       form: {
         user: req.body.user,
@@ -101,7 +101,7 @@ module.exports = function(expressApp, route) {
     if (!req.body.script.script_file) return res.status(400).send("Script needs a file name");
 
     var options = {
-      url: expressApp.settings.host + "/script",
+      url: expressApp.settings.host + "/script?auth_token=" + req.query.auth_token,
       method: "PUT",
       form: { user: req.body.user,script: req.body.script },
       header: {
@@ -135,7 +135,7 @@ module.exports = function(expressApp, route) {
       return res.status(400).send("No script status specified");
 
     var options = {
-      url: expressApp.settings.host + "/script/status",
+      url: expressApp.settings.host + "/script/status?auth_token=" + req.query.auth_token,
       method: "PUT",
       form: { user: req.body.user, script: req.body.script},
       headers: {
@@ -168,7 +168,7 @@ module.exports = function(expressApp, route) {
     if (!req.body.user) return res.status(400).send("No user in the body.");
 
     var options = {
-      url: expressApp.settings.host + '/script/' + req.params.name + '/remove',
+      url: expressApp.settings.host + '/script/' + req.params.name + '/remove?auth_token=' + req.query.auth_token,
       method: "POST",
       form: {user: req.body.user},
       headers: {
