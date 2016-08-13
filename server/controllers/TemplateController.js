@@ -43,6 +43,8 @@ module.exports = (app, route) => {
           // continue to the next item if the template is not compatible with the platform
           if (process.platform == "darwin" && !template.platforms.osx) return;
           if (process.platform == "win32" && !template.platforms.win) return;
+          // don't show it to the creator if it was deleted by them
+          if (!template.active && req.query.user == template._creator.profile.email) return;
 
           var tempTemplate = {
             template_id: template.template_id,
