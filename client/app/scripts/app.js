@@ -109,6 +109,27 @@ angular
       }
     }
   })
+  .factory("ConfigGenerator", function($rootScope, umasterSocket, Template, Profile, Script, AppStore) {
+    return {
+      generate: function(callback) {
+        Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+          // load the local scripts configuration in the background
+          Script.one('local').get().then(function(localScripts) {
+            AppStore.localScripts = localScripts;
+            $rootScope.scriptsLoaded = true;
+            callback();
+          }, function(response) {
+            console.log(response);
+            callback(response);
+          });
+
+        }, function(response) {
+          console.log(response);
+          callback(response);
+        });
+      }
+    }
+  })
   .run(function($rootScope, auth, store, jwtHelper, $location) {
     // This events gets triggered on refresh or URL change
     $rootScope.$on('$locationChangeStart', function() {

@@ -11,15 +11,6 @@ angular.module('uMasterApp')
   .controller('DashboardCtrl', function ($scope, auth, store, Profile, umasterSocket, Script, AppStore, $rootScope) {
     $rootScope.openUpdateModal = false;
 
-    // load the templates configuration in the background
-    Script.one('local').get().then(function(localScripts) {
-      AppStore.localScripts = localScripts;
-      $rootScope.scriptsLoaded = true;
-      console.log(AppStore.localScripts);
-    }, function(response) {
-      console.log(response);
-    });
-
     Script.one().get({user: Profile.details.email}).then(function(scripts) {
       AppStore.activities = scripts;
       console.log(scripts);

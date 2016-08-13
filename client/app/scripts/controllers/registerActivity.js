@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore, Profile) {
+  .controller('RegisterActivityCtrl', function ($scope, Template, Upload, $timeout, HOST, Script, AppStore, Profile, ConfigGenerator) {
     // declare possible field configurations
     var rangeConfigurables = ["label", "min", "max"];
     var textConfigurables = ["label"];
@@ -80,20 +80,12 @@ angular.module('uMasterApp')
                   $scope.f.result = response.data;
 
                   // generate the templates after the upload is successful
-                  Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+                  ConfigGenerator.generate(function(err) {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
                     $scope.templateSaved = true;
-
-                    // load the local scripts configuration in the background
-                    Script.one('local').get().then(function(localScripts) {
-                      AppStore.localScripts = localScripts;
-                      console.log(AppStore.localScripts);
-                    }, function(response) {
-                      console.log(response);
-                    });
-
-                    console.log(data);
-                  }, function(response) {
-                    console.log(response);
                   });
 
                   // reset everything
@@ -112,20 +104,12 @@ angular.module('uMasterApp')
 
         } else {
           // regenerate the config file
-          Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+          ConfigGenerator.generate(function(err) {
+            if (err) {
+              console.log(err);
+              return;
+            }
             $scope.templateSaved = true;
-
-            // load the local scripts configuration in the background
-            Script.one('local').get().then(function(localScripts) {
-              AppStore.localScripts = localScripts;
-              console.log(AppStore.localScripts);
-            }, function(response) {
-              console.log(response);
-            });
-
-            console.log(data);
-          }, function(response) {
-            console.log(response);
           });
         }
       }, function(response) {

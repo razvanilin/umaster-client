@@ -8,7 +8,7 @@
  * Controller of the uMasterApp
  */
 angular.module('uMasterApp')
-  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth, AppStore, Template) {
+  .controller('LandingCtrl', function ($scope, $rootScope, User, Profile, umasterSocket, $window, store, Script, auth, AppStore, Template, ConfigGenerator) {
 
     if (store.get('profile')) {
       $scope.loading = true;
@@ -24,14 +24,17 @@ angular.module('uMasterApp')
         console.log(Profile.details);
 
         // generate the templates
-        Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+        ConfigGenerator.generate(function(err) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+
           $rootScope.loggedin = true;
           $scope.$emit("page-change", "dashboard");
 
           umasterSocket.emit('register', Profile.details);
           $scope.loading = false;
-        }, function(response) {
-          console.log(response);
         });
 
       }, function(response) {
@@ -57,7 +60,12 @@ angular.module('uMasterApp')
 
           $scope.$emit("profile-updated", "");
           // generate the templates
-          Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
+          ConfigGenerator.generate(function(err) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+
             $rootScope.loggedin = true;
             umasterSocket.emit('register', Profile.details);
             $scope.loading = false;
@@ -65,8 +73,6 @@ angular.module('uMasterApp')
             // refresh workaround to reset the socket factory settings
             $scope.$emit('page-change', 'dashboard');
             $window.location.reload();
-          }, function(response) {
-            console.log(response);
           });
 
         }, function(response) {
