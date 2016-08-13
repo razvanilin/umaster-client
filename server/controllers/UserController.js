@@ -18,7 +18,7 @@ module.exports = function(expressApp, route) {
     console.log("POST requested.");
     console.log(req.body.user);
     var options = {
-      url: expressApp.settings.host + "/user",
+      url: expressApp.settings.host + "/user?auth_token=" + req.query.auth_token,
       method: "POST",
       form: req.body.user,
       headers: {

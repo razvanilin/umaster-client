@@ -44,11 +44,13 @@ angular.module('uMasterApp')
       $scope.loading = true;
       auth.signin({}, function (profile, token) {
 
+        // store the profile and token
+        store.set('profile', profile);
+        store.set('token', token);
+
         // create or update the user
         User.one().customPOST({user: profile}).then(function(user) {
 
-          store.set('profile', profile);
-          store.set('token', token);
           Profile.details = profile;
           // register the type of the profile
           Profile.details.type = "pc";
