@@ -19,6 +19,8 @@ angular.module('uMasterApp')
         Profile.details = store.get('profile');
         Profile.details.type = "pc";
 
+        $scope.$emit("updated-profile", "");
+
         console.log(Profile.details);
 
         // generate the templates
@@ -48,11 +50,10 @@ angular.module('uMasterApp')
           store.set('profile', profile);
           store.set('token', token);
           Profile.details = profile;
-          console.log("profile");
-          console.log(Profile.details);
           // register the type of the profile
           Profile.details.type = "pc";
 
+          $scope.$emit("profile-updated", "");
           // generate the templates
           Template.one().get({user: Profile.details.email, config: true}).then(function(data) {
             $rootScope.loggedin = true;

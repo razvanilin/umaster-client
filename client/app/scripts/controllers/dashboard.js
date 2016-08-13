@@ -9,7 +9,6 @@
  */
 angular.module('uMasterApp')
   .controller('DashboardCtrl', function ($scope, auth, store, Profile, umasterSocket, Script, AppStore, $rootScope) {
-    $rootScope.connection = {};
     $rootScope.openUpdateModal = false;
 
     // load the templates configuration in the background
@@ -36,33 +35,12 @@ angular.module('uMasterApp')
       $scope.scripts = AppStore.activities;
     });
 
-    // Socket messages
-    umasterSocket.on('script-accepted', function(script) {
-      Script.one('run').one(script.name).customPOST({script: script}).then(function(data) {
-        console.log(data);
-      });
-    });
-
-    umasterSocket.on("register-complete", function(data) {
-      $rootScope.connection = data;
-    });
-
     // ---------------------------------------
 
     if (Profile.details) {
       console.log(Profile.details);
       $scope.profile = Profile.details;
     }
-
-    $scope.logOut = function() {
-      auth.signout();
-      store.remove('profile');
-      store.remove('token');
-      $rootScope.loggedin = false;
-
-      umasterSocket.emit('unregister', Profile.details);
-      Profile.details = {};
-    };
 
     $scope.deleteScript = function(scriptName) {
       $scope.loading = true;
