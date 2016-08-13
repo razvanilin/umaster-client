@@ -1,8 +1,8 @@
 <div class="navbar-fixed">
   <ul id="dropdown1" class="dropdown-content">
-    <li><a href="javascript:void(0);">Account</a></li>
+    <li><a href='#updateModal' modal ng-click="checkForUpdates()">Settings</a></li>
     <li class="divider"></li>
-    <li><a ng-href="" ng-click="logout()">Logout</a></li>
+    <li><a ng-href="" ng-click="logOut()">Logout</a></li>
   </ul>
   <nav>
     <div class="nav-wrapper">
@@ -21,7 +21,9 @@
           <a href="#" class="button-collapse hide-on-med-and-up" data-activates="nav-mobile" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
             <i class="large material-icons">menu</i>
           </a>
+          <a href="javascript:void(0)" data-activates='dropdown1' dropdown data-hover="true" class="hide-on-small-only center"><div class="valign-wrapper"><img ng-src="{{profile.picture}}" class="circle" style="max-height:30px;margin-right:5px"> <span class="valign"> {{profile.nickname}}</span></div></a>
         </li>
+        <li class="hide-on-small-only">v{{clientVersion}}</li>
       </ul>
       <ul class="right hide-on-small-only">
         <li>
@@ -36,12 +38,26 @@
         </li>
       </ul>
 
+      <ul class="right hide-on-med-and-up">
+        <li>
+          <a tooltipped ng-show="!connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Not connected to any clients"><i class="large material-icons">portable_wifi_off</i></a>
+          <a tooltipped ng-show="connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Connected to a Web client"><i class="large material-icons">settings_input_antenna</i></a>
+        </li>
+      </ul>
+
       <ul id="nav-mobile" class="side-nav fixed hide-on-large-only">
               <!--Maybe a logo?-->
               <li class="logo center"><img src="images/logo-color.png" height="70px"></li>
+              <li class="center">v{{clientVersion}}</li>
+              <li class="center"><a ng-href="" class="white-text"><div class="valign-wrapper"><img ng-src="{{profile.picture}}" class="circle" style="max-height:30px;margin-right:5px"> {{profile.nickname}}</div></a>
+</li>
+              <li class="divider"></li>
               <li class="bold"><a ng-click="navigate('dashboard')" class="waves-effect white-text">Dashboard</a></li>
-              <li class="bold"><a ng-click="navigate('register-activity')" class="waves-effect white-text">Register an activity</a></li>
+              <li class="bold"><a ng-click="navigate('templates')" class="waves-effect white-text">Your Templates</a></li>
+              <li class="bold"><a href='#updateModal' modal ng-click="checkForUpdates()" class="waves-effect white-text">Settings</a></li>
 
+              <li class="divider"></li>
+              <li class="bold"><a ng-click="logOut()" class="waves-effect white-text">Logout</a></li>
       </ul>
     </div>
   </nav>

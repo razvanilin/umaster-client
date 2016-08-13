@@ -51,20 +51,15 @@
   </div>
 
   <ng-include ng-if="scriptsLoaded" src="'views/addActivity.html'"></ng-include>
-  <ng-include src="'views/update.html'"></ng-include>
-
 
   <div class="fixed-action-btn vertical" style="bottom: 60px; right: 24px;">
-    <a class="btn-floating btn-large">
-      <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;">
+    <a href='#activityModal' modal class="btn-floating btn-large" ng-click="prepareScript()">
+      <!-- <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;"> -->
+      <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i>
     </a>
     <ul>
-      <li><a tooltipped class="btn-floating red" data-position="left" data-delay="50" data-tooltip="Sign out" ng-click="logOut()">
-        <i class="material-icons">power_settings_new</i></a></li>
-      <li><a href='#updateModal' modal class="btn-floating blue" ng-click="checkForUpdates()">
-        <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Settings">settings</i></a></li>
-      <li><a href='#activityModal' modal class="btn-floating" ng-click="prepareScript()">
-        <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">add</i></a></li>
+      <li><a class="btn-floating blue" ng-click="navigate('register-activity')">
+        <i tooltipped data-position="left" data-delay="50" data-tooltip="Create a new template" class="material-icons">create</i></a></li>
     </ul>
   </div>
 
