@@ -2,8 +2,8 @@
 <ng-include ng-if="loggedin && page == 'register-activity'" src="'views/registerActivity.html'"></ng-include>
 
 <div ng-show="page == 'templates'" class="row">
-  <div ng-show="temp.active" ng-repeat="temp in templates">
-    <div class="clearfix" ng-if="$index % 3 == 0"></div>
+  <div ng-if="temp.active" ng-repeat="temp in templates">
+    <!-- <div class="clearfix" ng-if="$index % 3 == 0"></div> -->
     <div class="col s12 m4">
       <div class="card grey lighten-5 z-depth-1 hoverable">
         <div class="card-content">

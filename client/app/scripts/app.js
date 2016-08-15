@@ -31,7 +31,6 @@ angular
     }];
 
     $httpProvider.interceptors.push('jwtInterceptor');
-    $httpProvider.interceptors.push('httpRequestInterceptor');
 
     authProvider.init({
       domain: 'razvanilin.eu.auth0.com',
@@ -97,17 +96,6 @@ angular
     }
     // connect the socket only if the user is logged in
     return socket;
-  })
-  .factory('httpRequestInterceptor', function(store, URI) {
-    return {
-      request: function(config) {
-        if (store.get('token')) {
-          config.url = URI(config.url).addSearch({auth_token: store.get('token')}).toString();
-        }
-
-        return config;
-      }
-    }
   })
   .factory("ConfigGenerator", function($rootScope, umasterSocket, Template, Profile, Script, AppStore) {
     return {

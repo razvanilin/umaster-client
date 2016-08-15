@@ -13,11 +13,12 @@ module.exports = function(expressApp, route) {
     if (!req.query.user) return res.status(400).send("No user found in the query.");
 
     var options = {
-      url: expressApp.settings.host + "/script/?user=" + req.query.user + "&auth_token=" + req.query.auth_token,
+      url: expressApp.settings.host + "/script/?user=" + req.query.user,
       method: "GET",
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': req.get('Authorization')
       }
     };
 
@@ -58,19 +59,19 @@ module.exports = function(expressApp, route) {
    *  Route to request the creation of a new script
    */
   expressApp.post('/script', function(req, res) {
-    console.log(req.body);
     if (!req.body.user) return res.status(400).send("No user in the body.");
     if (!req.body.script) return res.status(400).send("No script in the body.");
     if (!req.body.script.name) return res.status(400).send("Script needs a name.");
 
     var options = {
-      url: expressApp.settings.host + "/script?auth_token=" + req.query.auth_token,
+      url: expressApp.settings.host + "/script",
       method: "POST",
       form: {
         user: req.body.user,
         script: req.body.script
       },
-      header: {
+      headers: {
+        "Authorization": req.get('Authorization'),
         "Accept": "application/json",
         "Content-Type": "application/json"
       }
@@ -101,12 +102,13 @@ module.exports = function(expressApp, route) {
     if (!req.body.script.script_file) return res.status(400).send("Script needs a file name");
 
     var options = {
-      url: expressApp.settings.host + "/script?auth_token=" + req.query.auth_token,
+      url: expressApp.settings.host + "/script",
       method: "PUT",
       form: { user: req.body.user,script: req.body.script },
-      header: {
+      headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": req.get('Authorization')
       }
     };
 
@@ -135,12 +137,13 @@ module.exports = function(expressApp, route) {
       return res.status(400).send("No script status specified");
 
     var options = {
-      url: expressApp.settings.host + "/script/status?auth_token=" + req.query.auth_token,
+      url: expressApp.settings.host + "/script/status",
       method: "PUT",
       form: { user: req.body.user, script: req.body.script},
       headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": req.get('Authorization')
       }
     };
 
@@ -168,12 +171,13 @@ module.exports = function(expressApp, route) {
     if (!req.body.user) return res.status(400).send("No user in the body.");
 
     var options = {
-      url: expressApp.settings.host + '/script/' + req.params.name + '/remove?auth_token=' + req.query.auth_token,
+      url: expressApp.settings.host + '/script/' + req.params.name + '/remove',
       method: "POST",
       form: {user: req.body.user},
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': req.get('Authorization')
       }
     };
 

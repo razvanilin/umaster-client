@@ -15,10 +15,11 @@ module.exports = (app, route) => {
     if (!req.query.user) return res.status(400).send("The user parameter is required for this request.");
 
     var options = {
-      url: app.settings.host + '/template?user=' + req.query.user + "&auth_token=" + req.query.auth_token,
+      url: app.settings.host + '/template?user=' + req.query.user,
       method: "GET",
       headers: {
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Authorization": req.get('Authorization')
       }
     };
 
@@ -97,12 +98,13 @@ module.exports = (app, route) => {
 
     // prepare the request options
     var options = {
-      url: app.settings.host + "/template?auth_token=" + req.query.auth_token,
+      url: app.settings.host + "/template",
       method: "POST",
       form: req.body,
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Authorization": req.get('Authorization')
       }
     }
 
@@ -123,7 +125,7 @@ module.exports = (app, route) => {
   app.post("/template/file", (req, res) => {
     // prepare the request to the api
     var options = {
-      url: app.settings.host + "/template/file?auth_token=" + req.query.auth_token,
+      url: app.settings.host + "/template/file",
       method: "POST",
       form: {
         template_id: templateId,
@@ -131,7 +133,8 @@ module.exports = (app, route) => {
       },
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Authorization": req.get('Authorization')
       }
     }
 
@@ -176,10 +179,11 @@ module.exports = (app, route) => {
   */
   app.get('/template/:id/remove', (req, res) => {
     var options = {
-      url: app.settings.host + "/template/"+req.params.id+"/remove?auth_token=" + req.query.auth_token,
+      url: app.settings.host + "/template/"+req.params.id+"/remove",
       method: "GET",
       headers: {
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Authorization": req.get('Authorization')
       }
     };
 
