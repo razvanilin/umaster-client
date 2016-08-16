@@ -1,4 +1,4 @@
 module.exports = {
-	host: 'http://umaster-server.razvanilin.com',
+	host: 'https://api.umaster.xyz',
   env: "production"
 };
