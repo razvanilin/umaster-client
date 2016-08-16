@@ -52,7 +52,7 @@ angular.module('uMasterApp')
         store.set('token', token);
 
         // create or update the user
-        User.one().customPOST(profile.user).then(function(user) {
+        User.one().customPOST(profile).then(function(user) {
 
           Profile.details = profile;
           // register the type of the profile
