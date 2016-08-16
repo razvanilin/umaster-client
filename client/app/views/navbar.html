@@ -2,6 +2,7 @@
   <ul id="dropdown1" class="dropdown-content">
     <li><a ng-click="navigate('dashboard')">Dashboard</a></li>
     <li><a href='#updateModal' modal ng-click="checkForUpdates()">Settings</a></li>
+    <li><a href="#termsModal" modal>T & C</a></li>
     <li class="divider"></li>
     <li><a ng-href="" ng-click="logOut()">Logout</a></li>
   </ul>
@@ -56,7 +57,7 @@
               <li class="bold"><a ng-click="navigate('dashboard')" class="waves-effect white-text">Dashboard</a></li>
               <li class="bold"><a ng-click="navigate('templates')" class="waves-effect white-text">Your Templates</a></li>
               <li class="bold"><a href='#updateModal' modal ng-click="checkForUpdates()" class="waves-effect white-text">Settings</a></li>
-
+              <li class="bold"><a href="#termsModal" class="waves-effect white-text" modal>Terms & Conditions</a></li>
               <li class="divider"></li>
               <li class="bold"><a ng-click="logOut()" class="waves-effect white-text">Logout</a></li>
       </ul>
