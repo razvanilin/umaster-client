@@ -83,7 +83,7 @@ angular
     } else if (ENV == 'production-test') {
       socketUrl = "https://apidev.umaster.xyz";
     } else if (ENV == 'development') {
-      socketUrl = "http://localhost:3030";
+      socketUrl = "http://localhost:3031";
     }
 
     var socket;

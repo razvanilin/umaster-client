@@ -1,7 +1,13 @@
 <div ng-controller="TemplatesCtrl">
 <ng-include ng-if="loggedin && page == 'register-activity'" src="'views/registerActivity.html'"></ng-include>
 
-<div ng-show="page == 'templates'" class="row">
+<div ng-show="page == 'templates' && !viewDeleted" class="row">
+  <div ng-show="noTemplates" class="row centered">
+    <p class="flow-text white-text">You don't have any templates, press the button below to add one now</p>
+    <a ng-click="navigate('register-activity')" class="btn-floating btn-large waves-effect waves-light" ng-click="prepareScript()">
+      <i tooltipped data-position="right" data-delay="50" data-tooltip="Create a new template" class="material-icons">create</i>
+    </a>
+  </div>
   <div ng-if="temp.active" ng-repeat="temp in templates">
     <!-- <div class="clearfix" ng-if="$index % 3 == 0"></div> -->
     <div class="col s12 m4">
@@ -68,9 +74,30 @@
   </div>
 </div>
 
-<div ng-show="page != 'register-activity'" class="fixed-action-btn" style="bottom: 60px; right: 24px;">
-  <a class="btn-floating btn-large" ng-click="navigate('register-activity')">
-    <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Create a template">create</i>
-  </a>
-</div>
+<!-- DELETED TEMPLATES -->
+<ng-include ng-if="page == 'templates' && viewDeleted" src="'views/deletedTemplates.html'"></ng-include>
+
+  <div class="fixed-action-btn vertical" style="bottom: 30px; right: 24px;">
+    <a href='#activityModal' modal class="btn-floating btn-large" ng-click="prepareScript()">
+      <!-- <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;"> -->
+      <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">menu</i>
+    </a>
+    <ul>
+      <li ng-show="!viewDeleted">
+        <a class="btn-floating btn red" ng-click="showDeleted()">
+          <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Show deleted templates">delete</i>
+        </a>
+      </li>
+      <li ng-show="viewDeleted">
+        <a class="btn-floating btn" ng-click="hideDeleted()">
+          <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Go back to the templates">navigate_before</i>
+        </a>
+      </li>
+      <li>
+        <a class="btn-floating btn blue" ng-click="navigate('register-activity')">
+          <i tooltipped class="material-icons" data-position="left" data-delay="50" data-tooltip="Create a template">create</i>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

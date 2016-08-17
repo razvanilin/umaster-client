@@ -22,7 +22,7 @@ angular.module('uMasterApp')
         $scope.$emit("updated-profile", "");
 
         console.log(Profile.details);
-
+        
         // generate the templates
         ConfigGenerator.generate(function(err) {
           if (err) {

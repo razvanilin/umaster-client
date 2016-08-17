@@ -28,13 +28,13 @@
         <li class="hide-on-small-only">v{{clientVersion}}</li>
       </ul>
       <ul class="right hide-on-small-only">
-        <li>
+        <li id="dashboardMenu">
           <a ng-click="navigate('dashboard')"><i ng-class="{'active-menu-item' : page == 'dashboard'}" tooltipped data-position="bottom" data-delay="50"  data-tooltip="View your dashboard" class="large material-icons">home</i></a>
         </li>
-        <li>
+        <li id="templatesMenu">
           <a ng-click="navigate('templates')"><i ng-class="{'active-menu-item' : page == 'templates'}" tooltipped data-position="bottom" data-delay="50"  data-tooltip="See all your templates" class="large material-icons">apps</i></a>
         </li>
-        <li>
+        <li id="connectionsMenu">
           <a tooltipped ng-show="!connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Not connected to any clients"><i class="large material-icons">portable_wifi_off</i></a>
           <a tooltipped ng-show="connection.length > 0" data-position="bottom" data-delay="50"  data-tooltip="Connected to a Web client"><i class="large material-icons">settings_input_antenna</i></a>
         </li>
