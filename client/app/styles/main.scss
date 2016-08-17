@@ -44,6 +44,14 @@ body {
 
 }
 
+.marketing-bg {
+  background-image:url('/images/bg-fhd-noflag.png');
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position: center bottom;
+  height: 100vh;
+}
+
 .form-control {
   padding-left: 10px !important;
 }

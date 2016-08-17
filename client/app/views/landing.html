@@ -1,5 +1,6 @@
-<div class="row" ng-controller="LandingCtrl">
-  <div class="col s12 m6 offset-m3">
+<div class="row marketing-bg" style="margin-bottom:0px" ng-controller="LandingCtrl">
+  <span class="white-text" style="position:absolute;top:10px;left:10px">{{clientVersion}}</span>
+  <!--div class="col s12 m6 offset-m3">
     <div class="card-panel grey lighten-5 z-depth-1 hoverable" style="text-align:center">
       <div class="card-image">
         <img src="images/logo-color.png" style="max-width:250px">
@@ -11,9 +12,26 @@
       <p>
         <button class="waves-effect waves-light btn-large" ng-click="signin()">Become uMaster</button>
       </p>
+    </div>
+  </div-->
+  <div class="row center top-buffer-sm">
+    <img src="images/logo-color.png" style="max-width: 100px">
+  </div>
 
-      <!--p class="flow-text">Create activities on your PC that can be activated remotely!</p-->
+  <div class="row">
+    <div class="col s12 m12 white-text center">
+      <h1>uMaster<small class="grey-text text-darken-5"> alpha</small></h1>
+      <span class="flow-text">Running activities on your personal computer remotely</span>
     </div>
   </div>
 
+  <div class="row center">
+    <a href="https://twitter.com/intent/tweet?button_hashtag=umaster" class="twitter-hashtag-button" data-size="large" data-text="uMaster: the remote activity runner. Check it out at http://umaster.xyz by @razvanilin" data-show-count="false">Tweet #umaster</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </div>
+
+  <div class="row" style="margin-bottom:0">
+    <div class="col s12 m12 center">
+        <a class="waves-effect waves-light btn-large white-text top-buffer-sm" ng-click="signin()">Let's get started</a>
+    </div>
+  </div>
 </div>
