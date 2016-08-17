@@ -79,7 +79,9 @@ angular
   .factory('umasterSocket', function(socketFactory, ENV, store) {
     var socketUrl;
     if (ENV == 'production') {
-      socketUrl = "http://umaster-server.razvanilin.com";
+      socketUrl = "https://api.umaster.xyz";
+    } else if (ENV == 'production-test') {
+      socketUrl = "https://apidev.umaster.xyz";
     } else if (ENV == 'development') {
       socketUrl = "http://localhost:3030";
     }

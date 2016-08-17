@@ -1,4 +1,4 @@
 module.exports = {
-	host: 'http://localhost:3030',
+	host: 'http://localhost:3031',
   env: "development"
 };

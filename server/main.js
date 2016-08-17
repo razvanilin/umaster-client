@@ -94,7 +94,7 @@ app.on('ready', function() {
     //url = url.replace("server\\", "");
     url = "file://" + url;
     console.log(url);
-    mainWindow.loadURL("http://localhost:8000");
+    mainWindow.loadURL("http://localhost:8660");
   }
 
   // Emitted when the window is closed.
@@ -111,7 +111,7 @@ app.on('ready', function() {
   });
 
 
-  http.listen(8000, function(){
-    console.log("Listening on port" + 8000);
+  http.listen(8660, function(){
+    console.log("Listening on port" + 8660);
   });
 });

@@ -48,7 +48,7 @@ module.exports = function (grunt) {
         },
         constants: {
           ENV: 'development',
-          HOST: 'http://localhost:8000'
+          HOST: 'http://localhost:8660'
         }
       },
       production: {
@@ -57,7 +57,16 @@ module.exports = function (grunt) {
         },
         constants: {
           ENV: 'production',
-          HOST: 'http://localhost:8000'
+          HOST: 'http://localhost:8660'
+        }
+      },
+      production_test: {
+        options: {
+          dest: '<%= yeoman.app %>/scripts/config.js'
+        },
+        constants: {
+          ENV: 'production-test',
+          HOST: 'http://localhost:8660'
         }
       }
     },
@@ -526,6 +535,25 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'ngconstant:production',
+    'wiredep',
+    'useminPrepare',
+    'concurrent:dist',
+    'postcss',
+    'ngtemplates',
+    'concat',
+    'ngAnnotate',
+    'copy:dist',
+    'cdnify',
+    'cssmin',
+    'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin'
+  ]);
+
+  grunt.registerTask('build-test', [
+    'clean:dist',
+    'ngconstant:production_test',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
