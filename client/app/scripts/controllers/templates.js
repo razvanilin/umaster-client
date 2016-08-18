@@ -115,4 +115,12 @@ angular.module('uMasterApp')
         console.log(response);
       });
     }
+
+    $scope.makeGlobal = function(temp) {
+      Template.one(temp._id).one('global').get().then(function(data) {
+        temp.global = data.global;
+      }, function(response) {
+        console.log(response);
+      });
+    }
   });

@@ -61,10 +61,6 @@ app.on('window-all-closed', function() {
 expressApp.scriptPath = app.getPath('userData') + "/scripts";
 expressApp.scriptsConf = "scriptsConf.json";
 
-// check if the path exists and if it doesn't, create it and install the scripts
-if (!fs.existsSync(expressApp.scriptPath)) {
-  fs.mkdirSync(expressApp.scriptPath);
-
   // // copy the demo scripts from the local store in the script folder
   // var resFolder = path.join(__dirname, "scripts");
   // // go through all the files
@@ -77,11 +73,14 @@ if (!fs.existsSync(expressApp.scriptPath)) {
   //     fs.createReadStream(filePath).pipe(fs.createWriteStream(destinationPath));
   //   });
   // });
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+  // check if the path exists and if it doesn't, create it and install the scripts
+  if (!fs.existsSync(expressApp.scriptPath)) {
+    fs.mkdirSync(expressApp.scriptPath);
+  }
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1024, height: 764, title: "uMaster", webPreferences: {"nodeIntegration":false}});
 

@@ -22,7 +22,7 @@ angular.module('uMasterApp')
         $scope.$emit("updated-profile", "");
 
         console.log(Profile.details);
-        
+
         // generate the templates
         ConfigGenerator.generate(function(err) {
           if (err) {
@@ -45,7 +45,11 @@ angular.module('uMasterApp')
 
     $scope.signin = function() {
       $scope.loading = true;
-      auth.signin({}, function (profile, token) {
+      auth.signin({
+        authParams: {
+          scope: 'openid name email roles' // Specify the scopes you want to retrieve
+        }
+      }, function (profile, token) {
 
         // store the profile and token
         store.set('profile', profile);

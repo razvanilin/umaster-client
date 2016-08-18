@@ -195,6 +195,27 @@ module.exports = (app, route) => {
   });
   // --------------------------------------------
 
+  /*
+  ** Route to make a template global
+  */
+  app.get('/template/:id/global', (req, res) => {
+    var options = {
+      url: app.settings.host + "/template/"+req.params.id+"/global",
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": req.get('Authorization')
+      }
+    };
+
+    request(options, (error, resp, body) => {
+      if (error) return res.status(400).send(error);
+
+      return res.status(resp.statusCode).send(body);
+    })
+  });
+  // --------------------------------------------
+
   return (req, res, next) => {
     next();
   }

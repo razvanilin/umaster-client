@@ -13,6 +13,12 @@
     <div class="col s12 m4">
       <div class="card grey lighten-5 z-depth-1 hoverable">
         <div class="card-content">
+          <span ng-if="profile.app_metadata.roles[0] == 'admin'" style="position:absolute; top:10px; right:10px">
+            <a ng-click="makeGlobal(temp)">
+              <i ng-show="!temp.global" class="material-icons">cloud_off</i>
+              <i ng-show="temp.global" class="material-icons">cloud_queue</i>
+            </a>
+          </span>
           <span class="card-title">
             <a href="#{{temp.template_id}}" class="grey-text text-darken-3" modal>{{temp.name}}</a>
           </span>
@@ -36,7 +42,7 @@
               <img src="{{temp._creator.profile.picture}}" class="circle" height="20px"> {{temp._creator.profile.nickname}}
           </div>
         </div>
-        <div class="card-action">
+        <div ng-show="temp._creator.profile.email == profile.email" class="card-action">
           <a class="waves-effect waves-light" ng-click="editTemplate(temp)"><i class="fa fa-pencil-square-o"></i> Edit</a>
           <a class="waves-effect waves-light red-text text-darken-4" ng-click="deleteTemplate(temp, $index)"><i class="fa fa-trash"></i> Remove</a>
         </div>
