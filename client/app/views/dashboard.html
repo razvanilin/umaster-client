@@ -25,7 +25,7 @@
             <a class="waves-effect waves-light" data-target="activityModal"  modal ng-click="editScript(scr)"><i class="fa fa-pencil-square-o"></i> Edit</a>
             <a class="waves-effect waves-light red-text text-darken-4" ng-click="deleteScript(scr.name)"><i class="fa fa-trash"></i> Remove</a>
             <div class="switch" style="float:right">
-              <label>
+              <label tooltipped data-position="bottom" data-delay="50" data-tooltip="Enable or Disable the activity">
                 <input type="checkbox" ng-model="scr.active" ng-change="changeScriptStatus(scr)">
                 <span class="lever"></span>
               </label>

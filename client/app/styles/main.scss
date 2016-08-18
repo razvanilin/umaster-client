@@ -52,6 +52,58 @@ body {
   height: 100vh;
 }
 
+.flag-bg {
+  animation-name: fadein_flag;
+  animation-duration: 2s;
+}
+
+@media screen and (min-width: 0px) {
+  .flag-bg {
+    position:absolute;
+    right:50px;
+    bottom:50px;
+  }
+
+  .flag-bg img {
+    height:100px
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .flag-bg {
+    position:absolute;
+    right:50px;
+    bottom:100px;
+  }
+
+  .flag-bg img {
+    height:200px
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .flag-bg {
+    position:absolute;
+    right:50px;
+    bottom:100px;
+  }
+
+  .flag-bg img {
+    height:300px
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .flag-bg {
+    position:absolute;
+    right:50px;
+    bottom:200px;
+  }
+  .flag-bg img {
+    height:400px
+  }
+}
+
 .form-control {
   padding-left: 10px !important;
 }
@@ -228,6 +280,11 @@ a.button-collapse.top-nav.full {
 @keyframes fadein {
   from {margin-top:30px; opacity: 0;}
   to {margin-top: $element-top-margin; opacity: 1;}
+}
+
+@keyframes fadein_flag {
+  from {bottom:0px; opacity: 0;}
+  to {opacity: 1;}
 }
 
 .centered {
