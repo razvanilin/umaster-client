@@ -77,7 +77,7 @@
 <!-- DELETED TEMPLATES -->
 <ng-include ng-if="page == 'templates' && viewDeleted" src="'views/deletedTemplates.html'"></ng-include>
 
-  <div class="fixed-action-btn vertical" style="bottom: 30px; right: 24px;">
+  <div ng-show="page == 'templates'" class="fixed-action-btn vertical" style="bottom: 30px; right: 24px;">
     <a href='#activityModal' modal class="btn-floating btn-large" ng-click="prepareScript()">
       <!-- <img ng-src="{{profile.picture}}" class="circle" style="max-height:60px;"> -->
       <i tooltipped data-position="left" data-delay="50" data-tooltip="Add a new activity" class="material-icons">menu</i>

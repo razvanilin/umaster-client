@@ -57,7 +57,7 @@
         <div class="divider"></div>
 
         <div ng-show="(template.platforms.win || template.platforms.osx) && template.args.length > 0" class="section center">
-          <p>Script arguments</p>
+          <p>Script arguments (click to edit)</p>
           <div class="chip" ng-class="{'yellow': argument && argument.id == $index, 'green': field.label}" ng-repeat="field in template.args">
             <span ng-click="editField(field)">{{field.type}}</span>
             <i class="close material-icons" ng-click="removeField($index)">close</i>
