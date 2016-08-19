@@ -17,9 +17,9 @@ angular.module('uMasterApp')
       Update.one().get().then(function(data) {
         $scope.updateData = data;
         if (!$scope.toastsDisplayed) {
-          Materialize.toast("New update available!", 4000, "rounded", function() {
-            Materialize.toast("Check the settings menu to update", 4000, "rounded");
-          });
+          // Materialize.toast("New update available!", 4000, "rounded", function() {
+          //   Materialize.toast("Check the settings menu to update", 4000, "rounded");
+          // });
         }
         $scope.toastsDisplayed = true;
       }, function(response) {

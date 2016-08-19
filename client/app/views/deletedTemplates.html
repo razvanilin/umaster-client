@@ -30,7 +30,7 @@
               <img src="{{temp._creator.profile.picture}}" class="circle" height="20px"> {{temp._creator.profile.nickname}}
           </div>
         </div>
-        <div class="card-action">
+        <div ng-show="temp._creator.profile.email == profile.email" class="card-action">
           <a class="waves-effect waves-light" ng-click="activateTemplate(temp, $index)">Activate again</a>
         </div>
       </div>
