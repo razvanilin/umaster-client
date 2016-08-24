@@ -13,7 +13,7 @@
     <div class="col s12 m4">
       <div class="card grey lighten-5 z-depth-1 hoverable">
         <div class="card-content">
-          <span ng-if="profile.app_metadata.roles[0] == 'admin'" style="position:absolute; top:10px; right:10px">
+          <span ng-if="profile.roles[0] == 'admin'" style="position:absolute; top:10px; right:10px">
             <a ng-click="makeGlobal(temp)">
               <i ng-show="!temp.global" class="material-icons">cloud_off</i>
               <i ng-show="temp.global" class="material-icons">cloud_queue</i>
