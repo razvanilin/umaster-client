@@ -14,9 +14,9 @@ angular.module('uMasterApp')
       $scope.loading = true;
       // create or update the user
 
-      User.one().customPOST(store.get('profile')).then(function(user) {
+      User.one().customPOST(store.get('profile')).then(function(data) {
 
-        Profile.details = store.get('profile');
+        Profile.details = data.user;
         Profile.details.type = "pc";
 
         $scope.$emit("updated-profile", "");
@@ -56,9 +56,9 @@ angular.module('uMasterApp')
         store.set('token', token);
 
         // create or update the user
-        User.one().customPOST(profile).then(function(user) {
+        User.one().customPOST(profile).then(function(data) {
 
-          Profile.details = profile;
+          Profile.details = data.user;
           // register the type of the profile
           Profile.details.type = "pc";
 

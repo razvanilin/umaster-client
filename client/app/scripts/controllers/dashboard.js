@@ -15,6 +15,8 @@ angular.module('uMasterApp')
       AppStore.activities = scripts;
       console.log(scripts);
       $scope.scripts = AppStore.activities;
+
+      showAppCues(Profile.details);
     }, function(response) {
       console.log(response);
     });
@@ -64,6 +66,19 @@ angular.module('uMasterApp')
       }, function(response) {
         console.log(response);
         $scope.loading = false;
+      });
+    }
+
+    // APPCUES stuff
+    function showAppCues(user) {
+      Appcues.identify(user._id, { // Unique identifier for current user
+        name: user.profile.name, // Current user's name
+        email: user.email, // Current user's email
+        created_at: user.createdAt, // Unix timestamp of user signup date
+        client: "PC"
+        // Additional user properties.
+        // is_trial: false,
+        // plan: "enterprise"
       });
     }
   });
